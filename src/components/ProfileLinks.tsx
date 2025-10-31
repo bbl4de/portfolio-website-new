@@ -7,37 +7,42 @@ interface Profile {
   platform: string;
   description: string;
   url: string;
-  stats?: string;
+  stats: string;
+  rank?: string;
 }
 
 const profiles: Profile[] = [
   {
-    name: "Code4rena",
+    name: "Cantina",
     platform: "Audit Platform",
     description: "Smart contract security competitions",
-    url: "https://code4rena.com/@bbl4de",
-    stats: "15+ contests participated"
+    url: "https://cantina.xyz/u/bbl4de",
+    stats: "$35K earnings",
+    rank: "#89 • 97 reputation"
   },
   {
     name: "Sherlock",
     platform: "Audit Platform",
     description: "DeFi security audits and contests",
     url: "https://audits.sherlock.xyz/watson/bbl4de",
-    stats: "Top 50 auditor"
-  },
-  {
-    name: "Immunefi",
-    platform: "Bug Bounty",
-    description: "Web3 bug bounty platform",
-    url: "https://immunefi.com/profile/bbl4de",
-    stats: "Multiple critical findings"
+    stats: "$41.3K earnings",
+    rank: "#241 All Time"
   },
   {
     name: "GitHub",
     platform: "Code Repository",
     description: "Security tools and research",
     url: "https://github.com/bbl4de",
-    stats: "Open source contributions"
+    stats: "Open source contributions",
+    rank: undefined
+  },
+  {
+    name: "Twitter/X",
+    platform: "Social Media",
+    description: "Security updates and research",
+    url: "https://x.com/bbl4de_xyz",
+    stats: "@bbl4de_xyz",
+    rank: undefined
   }
 ];
 
@@ -72,11 +77,16 @@ const ProfileLinks = () => {
                 <p className="text-sm text-muted-foreground">
                   {profile.description}
                 </p>
-                {profile.stats && (
+                <div className="space-y-1">
                   <p className="text-xs text-primary font-semibold">
                     {profile.stats}
                   </p>
-                )}
+                  {profile.rank && (
+                    <p className="text-xs text-muted-foreground">
+                      {profile.rank}
+                    </p>
+                  )}
+                </div>
                 <Button 
                   variant="outline" 
                   size="sm"

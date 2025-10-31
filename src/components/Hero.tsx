@@ -25,7 +25,7 @@ const Hero = () => {
         </h1>
         
         <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Smart Contract Security Expert • Bug Hunter • Blockchain Auditor
+          Ex-Astronomy student who fell in love with the Blockchain • 2+ years Web3 security experience
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -48,16 +48,16 @@ const Hero = () => {
         
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="p-6 rounded-lg bg-card/50 backdrop-blur cyber-border">
-            <div className="text-4xl font-bold cyber-glow mb-2">$40K+</div>
+            <div className="text-4xl font-bold cyber-glow mb-2">$41.3K+</div>
             <div className="text-muted-foreground">Total Earnings</div>
           </div>
           <div className="p-6 rounded-lg bg-card/50 backdrop-blur cyber-border">
-            <div className="text-4xl font-bold text-secondary mb-2">100+</div>
-            <div className="text-muted-foreground">Vulnerabilities Found</div>
+            <div className="text-4xl font-bold text-secondary mb-2">38</div>
+            <div className="text-muted-foreground">Total Findings</div>
           </div>
           <div className="p-6 rounded-lg bg-card/50 backdrop-blur cyber-border">
-            <div className="text-4xl font-bold text-secondary mb-2">50+</div>
-            <div className="text-muted-foreground">Audits Completed</div>
+            <div className="text-4xl font-bold text-secondary mb-2">20+</div>
+            <div className="text-muted-foreground">Contests & Audits</div>
           </div>
         </div>
       </div>

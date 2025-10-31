@@ -12,7 +12,7 @@ const Footer = () => {
           
           <div className="flex gap-6">
             <a 
-              href="https://twitter.com/bbl4de" 
+              href="https://x.com/bbl4de_xyz" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
@@ -28,7 +28,7 @@ const Footer = () => {
               <Github className="h-5 w-5" />
             </a>
             <a 
-              href="https://linkedin.com/in/bbl4de" 
+              href="https://cantina.xyz/u/bbl4de" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"

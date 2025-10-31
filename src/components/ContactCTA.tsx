@@ -27,9 +27,9 @@ const ContactCTA = () => {
                     className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box"
                     asChild
                   >
-                    <a href="https://twitter.com/bbl4de" target="_blank" rel="noopener noreferrer">
+                    <a href="https://x.com/bbl4de_xyz" target="_blank" rel="noopener noreferrer">
                       <Twitter className="mr-2 h-5 w-5" />
-                      DM on Twitter
+                      DM on X
                     </a>
                   </Button>
                   <Button 
@@ -49,7 +49,7 @@ const ContactCTA = () => {
                     className="cyber-border hover:bg-card"
                     asChild
                   >
-                    <a href="mailto:security@bbl4de.dev">
+                    <a href="mailto:bbl4de.xyz@gmail.com">
                       <Mail className="mr-2 h-5 w-5" />
                       Email
                     </a>
