@@ -1,0 +1,82 @@
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { MessageSquare, Mail, Twitter } from "lucide-react";
+
+const ContactCTA = () => {
+  return (
+    <section id="contact" className="py-20 px-4 bg-muted/20">
+      <div className="container mx-auto">
+        <div className="max-w-4xl mx-auto">
+          <Card className="bg-card/50 backdrop-blur cyber-border cyber-glow-box">
+            <CardHeader className="text-center pb-4">
+              <CardTitle className="text-4xl md:text-5xl font-bold mb-4 cyber-glow">
+                Need a Security Audit?
+              </CardTitle>
+              <CardDescription className="text-lg text-muted-foreground">
+                Get in touch for professional smart contract security audits and consultations
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-8">
+              <div className="text-center space-y-4">
+                <p className="text-muted-foreground">
+                  Available for private audits, security consultations, and bug bounty collaborations
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <Button 
+                    size="lg"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box"
+                    asChild
+                  >
+                    <a href="https://twitter.com/bbl4de" target="_blank" rel="noopener noreferrer">
+                      <Twitter className="mr-2 h-5 w-5" />
+                      DM on Twitter
+                    </a>
+                  </Button>
+                  <Button 
+                    size="lg"
+                    variant="outline"
+                    className="cyber-border hover:bg-card"
+                    asChild
+                  >
+                    <a href="https://t.me/bbl4de" target="_blank" rel="noopener noreferrer">
+                      <MessageSquare className="mr-2 h-5 w-5" />
+                      Telegram
+                    </a>
+                  </Button>
+                  <Button 
+                    size="lg"
+                    variant="outline"
+                    className="cyber-border hover:bg-card"
+                    asChild
+                  >
+                    <a href="mailto:security@bbl4de.dev">
+                      <Mail className="mr-2 h-5 w-5" />
+                      Email
+                    </a>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
+                <div className="text-center p-4">
+                  <div className="text-3xl font-bold text-primary mb-2">24-48h</div>
+                  <div className="text-sm text-muted-foreground">Response Time</div>
+                </div>
+                <div className="text-center p-4">
+                  <div className="text-3xl font-bold text-secondary mb-2">Custom</div>
+                  <div className="text-sm text-muted-foreground">Pricing Available</div>
+                </div>
+                <div className="text-center p-4">
+                  <div className="text-3xl font-bold text-primary mb-2">NDA</div>
+                  <div className="text-sm text-muted-foreground">Confidentiality Assured</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ContactCTA;
