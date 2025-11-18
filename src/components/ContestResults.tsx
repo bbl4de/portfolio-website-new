@@ -7,8 +7,6 @@ interface Contest {
   contest: string;
   rank: string;
   findings: string;
-  earnings: string;
-  severity: "Critical" | "High" | "Medium";
   url: string;
   tech: string;
 }
@@ -19,8 +17,6 @@ const contests: Contest[] = [
     contest: "Mach Finance",
     rank: "1st Place 🥇",
     findings: "1 Medium",
-    earnings: "$615",
-    severity: "High",
     url: "https://audits.sherlock.xyz/contests/727/leaderboard",
     tech: "Solidity • Lending on SONIC"
   },
@@ -29,8 +25,6 @@ const contests: Contest[] = [
     contest: "Infinifi Protocol",
     rank: "3rd Place 🥉",
     findings: "1 High, 4 Medium",
-    earnings: "$2,639",
-    severity: "High",
     url: "https://cantina.xyz/competitions/2ac7f906-1661-47eb-bfd6-519f5db0d36b/leaderboard",
     tech: "Solidity • Yield farming"
   },
@@ -39,8 +33,6 @@ const contests: Contest[] = [
     contest: "Story Network",
     rank: "11th Place",
     findings: "1 High, 1 Medium",
-    earnings: "$27,257",
-    severity: "Critical",
     url: "https://cantina.xyz/competitions/0561defa-eeb2-4a74-8884-5d7a873afa58/leaderboard",
     tech: "Go + Solidity • L1 for IP"
   },
@@ -48,9 +40,7 @@ const contests: Contest[] = [
     platform: "Cantina",
     contest: "Collar Core (Votre)",
     rank: "5th Place",
-    findings: "Multiple",
-    earnings: "$2,363",
-    severity: "High",
+    findings: "1 Medium",
     url: "https://cantina.xyz/competitions/050711ca-a6d1-4fdd-9f94-3816233c1bd5/leaderboard",
     tech: "Solidity • Liquidation-free lending"
   },
@@ -59,8 +49,6 @@ const contests: Contest[] = [
     contest: "Beraborrow",
     rank: "7th Place",
     findings: "Private",
-    earnings: "$2,027",
-    severity: "High",
     url: "https://audits.sherlock.xyz/contests/741/leaderboard",
     tech: "Solidity • Lending on Berachain"
   },
@@ -69,8 +57,6 @@ const contests: Contest[] = [
     contest: "Allora v0.8.0",
     rank: "11th Place",
     findings: "Private",
-    earnings: "$1,530",
-    severity: "Medium",
     url: "https://audits.sherlock.xyz/contests/728/leaderboard",
     tech: "Go • CosmosSDK L1"
   },
@@ -78,9 +64,7 @@ const contests: Contest[] = [
     platform: "Sherlock",
     contest: "Debita Finance V3",
     rank: "6th Place",
-    findings: "Multiple",
-    earnings: "Paid",
-    severity: "High",
+    findings: "2 High, 7 Medium",
     url: "https://audits.sherlock.xyz/contests/627/leaderboard",
     tech: "Solidity • Lending + NFT marketplace"
   },
@@ -88,9 +72,7 @@ const contests: Contest[] = [
     platform: "Cantina",
     contest: "Citrea",
     rank: "20th Place",
-    findings: "Multiple",
-    earnings: "$700",
-    severity: "Medium",
+    findings: "2 Low",
     url: "https://cantina.xyz/competitions/49b9e08d-4f8f-4103-b6e5-f5f43cf9faa1/leaderboard",
     tech: "Rust + Solidity • Bitcoin L2"
   }
@@ -105,7 +87,7 @@ const ContestResults = () => {
             Contest Results
           </h2>
           <p className="text-muted-foreground text-lg">
-            Public audit competitions and bug bounty achievements
+            Public audit competitions
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-6 text-sm">
             <div className="flex items-center gap-2">
@@ -115,9 +97,6 @@ const ContestResults = () => {
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="cyber-border text-secondary">23 Medium</Badge>
               <span className="text-muted-foreground">severity findings</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Badge variant="outline" className="cyber-border">20x Payouts</Badge>
             </div>
           </div>
         </div>
@@ -132,12 +111,6 @@ const ContestResults = () => {
                 <div className="flex justify-between items-start mb-2">
                   <Badge variant="outline" className="cyber-border text-primary">
                     {contest.platform}
-                  </Badge>
-                  <Badge 
-                    variant={contest.severity === "Critical" ? "destructive" : contest.severity === "High" ? "default" : "secondary"}
-                    className="group-hover:cyber-glow transition-all"
-                  >
-                    {contest.severity}
                   </Badge>
                 </div>
                 <CardTitle className="text-lg group-hover:text-primary transition-colors">
@@ -155,10 +128,6 @@ const ContestResults = () => {
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Findings:</span>
                     <span className="font-semibold">{contest.findings}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Earnings:</span>
-                    <span className="font-bold text-primary cyber-glow">{contest.earnings}</span>
                   </div>
                 </div>
                 <a 
