@@ -1,7 +1,7 @@
 import Hero from "@/components/Hero";
 import ContestResults from "@/components/ContestResults";
 import ProfileLinks from "@/components/ProfileLinks";
-import Credentials from "@/components/Credentials";
+import AuditProcess from "@/components/AuditProcess";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 
@@ -11,7 +11,7 @@ const Index = () => {
       <Hero />
       <ContestResults />
       <ProfileLinks />
-      <Credentials />
+      <AuditProcess />
       <ContactCTA />
       <Footer />
     </div>

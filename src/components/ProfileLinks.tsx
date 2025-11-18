@@ -17,7 +17,7 @@ const profiles: Profile[] = [
     platform: "Audit Platform",
     description: "Smart contract security competitions",
     url: "https://cantina.xyz/u/bbl4de",
-    stats: "$35K earnings",
+    stats: "Fellowship 2024",
     rank: "#89 • 97 reputation"
   },
   {
@@ -25,7 +25,7 @@ const profiles: Profile[] = [
     platform: "Audit Platform",
     description: "DeFi security audits and contests",
     url: "https://audits.sherlock.xyz/watson/bbl4de",
-    stats: "$41.3K earnings",
+    stats: "Multiple top 10 finishes",
     rank: "#241 All Time"
   },
   {
