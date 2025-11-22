@@ -1,6 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
+import machFinanceLogo from "@/assets/logos/mach-finance.png";
+import infinifiLogo from "@/assets/logos/infinifi.png";
+import storyLogo from "@/assets/logos/story.png";
+import collarLogo from "@/assets/logos/collar.png";
+import beraborrowLogo from "@/assets/logos/beraborrow.png";
+import alloraLogo from "@/assets/logos/allora.png";
+import debitaLogo from "@/assets/logos/debita.png";
+import citreaLogo from "@/assets/logos/citrea.png";
 
 interface Contest {
   platform: string;
@@ -9,6 +17,7 @@ interface Contest {
   findings: string;
   url: string;
   tech: string;
+  logo: string;
 }
 
 const contests: Contest[] = [
@@ -18,7 +27,8 @@ const contests: Contest[] = [
     rank: "1st Place 🥇",
     findings: "1 Medium",
     url: "https://audits.sherlock.xyz/contests/727/leaderboard",
-    tech: "Solidity • Lending on SONIC"
+    tech: "Solidity • Lending on SONIC",
+    logo: machFinanceLogo
   },
   {
     platform: "Cantina",
@@ -26,7 +36,8 @@ const contests: Contest[] = [
     rank: "3rd Place 🥉",
     findings: "1 High, 4 Medium",
     url: "https://cantina.xyz/competitions/2ac7f906-1661-47eb-bfd6-519f5db0d36b/leaderboard",
-    tech: "Solidity • Yield farming"
+    tech: "Solidity • Yield farming",
+    logo: infinifiLogo
   },
   {
     platform: "Cantina",
@@ -34,7 +45,8 @@ const contests: Contest[] = [
     rank: "11th Place",
     findings: "1 High, 1 Medium",
     url: "https://cantina.xyz/competitions/0561defa-eeb2-4a74-8884-5d7a873afa58/leaderboard",
-    tech: "Go + Solidity • L1 for IP"
+    tech: "Go + Solidity • L1 for IP",
+    logo: storyLogo
   },
   {
     platform: "Cantina",
@@ -42,7 +54,8 @@ const contests: Contest[] = [
     rank: "5th Place",
     findings: "1 Medium",
     url: "https://cantina.xyz/competitions/050711ca-a6d1-4fdd-9f94-3816233c1bd5/leaderboard",
-    tech: "Solidity • Liquidation-free lending"
+    tech: "Solidity • Liquidation-free lending",
+    logo: collarLogo
   },
   {
     platform: "Sherlock",
@@ -50,7 +63,8 @@ const contests: Contest[] = [
     rank: "7th Place",
     findings: "Private",
     url: "https://audits.sherlock.xyz/contests/741/leaderboard",
-    tech: "Solidity • Lending on Berachain"
+    tech: "Solidity • Lending on Berachain",
+    logo: beraborrowLogo
   },
   {
     platform: "Sherlock",
@@ -58,7 +72,8 @@ const contests: Contest[] = [
     rank: "11th Place",
     findings: "Private",
     url: "https://audits.sherlock.xyz/contests/728/leaderboard",
-    tech: "Go • CosmosSDK L1"
+    tech: "Go • CosmosSDK L1",
+    logo: alloraLogo
   },
   {
     platform: "Sherlock",
@@ -66,7 +81,8 @@ const contests: Contest[] = [
     rank: "6th Place",
     findings: "2 High, 7 Medium",
     url: "https://audits.sherlock.xyz/contests/627/leaderboard",
-    tech: "Solidity • Lending + NFT marketplace"
+    tech: "Solidity • Lending + NFT marketplace",
+    logo: debitaLogo
   },
   {
     platform: "Cantina",
@@ -74,7 +90,8 @@ const contests: Contest[] = [
     rank: "20th Place",
     findings: "2 Low",
     url: "https://cantina.xyz/competitions/49b9e08d-4f8f-4103-b6e5-f5f43cf9faa1/leaderboard",
-    tech: "Rust + Solidity • Bitcoin L2"
+    tech: "Rust + Solidity • Bitcoin L2",
+    logo: citreaLogo
   }
 ];
 
@@ -109,6 +126,11 @@ const ContestResults = () => {
             >
               <CardHeader>
                 <div className="flex justify-between items-start mb-2">
+                  <img 
+                    src={contest.logo} 
+                    alt={`${contest.contest} logo`}
+                    className="w-12 h-12 rounded-lg object-cover"
+                  />
                   <Badge variant="outline" className="cyber-border text-primary">
                     {contest.platform}
                   </Badge>
