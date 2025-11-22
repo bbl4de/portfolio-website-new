@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
+import profilePic from "@/assets/profile.jpg";
 
 const Hero = () => {
   return (
@@ -19,6 +20,14 @@ const Hero = () => {
         <Badge variant="outline" className="mb-6 cyber-border text-primary animate-pulse-glow">
           Web3 Security Researcher
         </Badge>
+        
+        <div className="mb-6 flex justify-center">
+          <img 
+            src={profilePic} 
+            alt="bbl4de profile" 
+            className="w-32 h-32 rounded-full object-cover cyber-border cyber-glow-box"
+          />
+        </div>
         
         <h1 className="text-6xl md:text-8xl font-bold mb-6 cyber-glow">
           bbl4de
