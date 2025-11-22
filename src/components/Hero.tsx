@@ -33,8 +33,11 @@ const Hero = () => {
           bbl4de
         </h1>
         
-        <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Security. Mastery. Trust. • Quick 48-hour turnaround • Seamless process with no unnecessary overhead
+        <p className="text-xl md:text-2xl text-muted-foreground mb-4 max-w-2xl mx-auto">
+          Security. Mastery. Trust.
+        </p>
+        <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+          Quick 48-hour turnaround • Seamless process with no unnecessary overhead
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
