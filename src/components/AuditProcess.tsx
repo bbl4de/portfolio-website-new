@@ -1,32 +1,38 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Phone, MessageSquareText, FileText, Search, Handshake } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 
 interface ProcessStep {
   title: string;
   description: string;
+  icon: React.ElementType;
 }
 
 const processSteps: ProcessStep[] = [
   {
     title: "Determining the Scope / Entry Call",
-    description: "Initial consultation to understand your protocol, define audit scope, and establish timelines"
+    description: "Initial consultation to understand your protocol, define audit scope, and establish timelines",
+    icon: Phone
   },
   {
     title: "Manual Review with Real-Time Comms",
-    description: "Deep dive security analysis with continuous communication channels for questions and updates"
+    description: "Deep dive security analysis with continuous communication channels for questions and updates",
+    icon: MessageSquareText
   },
   {
     title: "Draft Report",
-    description: "Comprehensive findings document with severity classifications and detailed vulnerability analysis"
+    description: "Comprehensive findings document with severity classifications and detailed vulnerability analysis",
+    icon: FileText
   },
   {
     title: "Fix Review",
-    description: "Verification of implemented fixes and validation that vulnerabilities are properly addressed"
+    description: "Verification of implemented fixes and validation that vulnerabilities are properly addressed",
+    icon: Search
   },
   {
     title: "Final Report & Future Engagements",
-    description: "Delivery of final audit report and discussion of ongoing security partnership opportunities"
+    description: "Delivery of final audit report and discussion of ongoing security partnership opportunities",
+    icon: Handshake
   }
 ];
 
@@ -59,39 +65,41 @@ const AuditProcess = () => {
             
             {/* Process steps */}
             <div className="space-y-8">
-              {processSteps.map((step, index) => (
-                <Card 
-                  key={index}
-                  className="relative ml-20 bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group"
-                >
-                  {/* Step number circle */}
-                  <div className="absolute -left-[4.5rem] top-6 w-16 h-16 rounded-full bg-card border-2 border-primary flex items-center justify-center cyber-glow-box">
-                    <span className="text-2xl font-bold text-primary">{index + 1}</span>
-                  </div>
-                  
-                  {/* Check icon */}
-                  <div className="absolute -left-20 top-8 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <CheckCircle2 className="h-6 w-6 text-primary" />
-                  </div>
+              {processSteps.map((step, index) => {
+                const IconComponent = step.icon;
+                return (
+                  <Card 
+                    key={index}
+                    className="relative ml-20 bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group"
+                  >
+                    {/* Step number circle */}
+                    <div className="absolute -left-[4.5rem] top-6 w-16 h-16 rounded-full bg-card border-2 border-primary flex items-center justify-center cyber-glow-box">
+                      <span className="text-2xl font-bold text-primary">{index + 1}</span>
+                    </div>
+                    
+                    {/* Check icon */}
+                    <div className="absolute -left-20 top-8 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <CheckCircle2 className="h-6 w-6 text-primary" />
+                    </div>
 
-                  <CardContent className="pt-6 pb-6">
-                    <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
-                      {step.title}
-                    </h3>
-                    <p className="text-muted-foreground">
-                      {step.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-12 text-center">
-            <div className="inline-block p-6 rounded-lg bg-card/50 backdrop-blur cyber-border">
-              <p className="text-lg text-muted-foreground">
-                <span className="text-primary font-bold cyber-glow">Average Timeline:</span> 2-4 weeks depending on scope complexity
-              </p>
+                    <CardContent className="pt-6 pb-6">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                          <IconComponent className="h-6 w-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                            {step.title}
+                          </h3>
+                          <p className="text-muted-foreground">
+                            {step.description}
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </div>
         </div>
