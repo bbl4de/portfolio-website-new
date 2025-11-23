@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero";
-import ContestResults from "@/components/ContestResults";
+import ContestResultsCarousel from "@/components/ContestResultsCarousel";
 import ProfileLinks from "@/components/ProfileLinks";
 import AuditProcess from "@/components/AuditProcess";
 import ContactCTA from "@/components/ContactCTA";
@@ -10,7 +10,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Hero />
-      <ContestResults />
+      <ContestResultsCarousel />
       <ProfileLinks />
       <AuditProcess />
       <ContactCTA />
