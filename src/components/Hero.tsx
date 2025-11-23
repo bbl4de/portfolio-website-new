@@ -60,7 +60,7 @@ const Hero = () => {
         
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           <div className="p-6 rounded-lg bg-card/50 backdrop-blur cyber-border">
-            <div className="text-4xl font-bold cyber-glow mb-2">38</div>
+            <div className="text-4xl font-bold cyber-glow mb-2">50+</div>
             <div className="text-muted-foreground">Total Findings</div>
           </div>
           <div className="p-6 rounded-lg bg-card/50 backdrop-blur cyber-border">
