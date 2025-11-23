@@ -4,6 +4,7 @@ import ProfileLinks from "@/components/ProfileLinks";
 import AuditProcess from "@/components/AuditProcess";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
+import FloatingCTA from "@/components/FloatingCTA";
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
       <AuditProcess />
       <ContactCTA />
       <Footer />
+      <FloatingCTA />
     </div>
   );
 };
