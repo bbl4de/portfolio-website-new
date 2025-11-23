@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
+import heroBg from "@/assets/hero-bg.jpg";
 
 interface ProcessStep {
   title: string;
@@ -31,8 +32,17 @@ const processSteps: ProcessStep[] = [
 
 const AuditProcess = () => {
   return (
-    <section id="process" className="py-20 px-4">
-      <div className="container mx-auto">
+    <section id="process" className="relative py-20 px-4 overflow-hidden">
+      <div 
+        className="absolute inset-0 z-0 opacity-10"
+        style={{
+          backgroundImage: `url(${heroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-background/80 to-background" />
+      <div className="container mx-auto relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 cyber-glow">
             Audit Process
