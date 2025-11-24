@@ -10,7 +10,7 @@ import beraborrowLogo from "@/assets/logos/beraborrow.png";
 import alloraLogo from "@/assets/logos/allora.png";
 import debitaLogo from "@/assets/logos/debita.png";
 import citreaLogo from "@/assets/logos/citrea.png";
-import heroBg from "@/assets/hero-bg.jpg";
+
 
 interface Contest {
   platform: string;
@@ -150,17 +150,7 @@ const ContestResultsCarousel = () => {
   const duplicatedContests = [...contests, ...contests];
 
   return (
-    <section id="results" className="relative py-20 px-4 overflow-hidden">
-      <div 
-        className="absolute inset-0 z-0 opacity-5"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'top',
-          transform: 'scale(1.1)',
-        }}
-      />
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-background via-primary/5 to-background" />
+    <section id="results" className="relative py-20 px-4 overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background">
       
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-12">

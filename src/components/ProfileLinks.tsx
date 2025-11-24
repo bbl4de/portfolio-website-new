@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ExternalLink } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+
 
 interface Profile {
   name: string;
@@ -49,17 +49,7 @@ const profiles: Profile[] = [
 
 const ProfileLinks = () => {
   return (
-    <section id="profiles" className="relative py-20 px-4 overflow-hidden">
-      <div 
-        className="absolute inset-0 z-0 opacity-8"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'bottom',
-          filter: 'blur(2px)',
-        }}
-      />
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-background via-secondary/5 to-background" />
+    <section id="profiles" className="relative py-20 px-4 overflow-hidden bg-gradient-to-t from-background via-secondary/8 to-primary/5">
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 cyber-glow">
