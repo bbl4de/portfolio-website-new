@@ -5,7 +5,7 @@ import heroBg from "@/assets/hero-bg.jpg";
 
 const ContactCTA = () => {
   return (
-    <section id="contact" className="relative py-20 px-4 overflow-hidden">
+    <section id="contact" className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
       <div 
         className="absolute inset-0 z-0 opacity-12"
         style={{
