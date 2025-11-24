@@ -7,14 +7,15 @@ const ContactCTA = () => {
   return (
     <section id="contact" className="relative py-20 px-4 overflow-hidden">
       <div 
-        className="absolute inset-0 z-0 opacity-10"
+        className="absolute inset-0 z-0 opacity-12"
         style={{
           backgroundImage: `url(${heroBg})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center left',
+          filter: 'brightness(0.8)',
         }}
       />
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-background/80 to-background" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-background/95 via-primary/10 to-background/95" />
       <div className="container mx-auto relative z-10">
         <div className="max-w-4xl mx-auto">
           <Card className="bg-card/50 backdrop-blur cyber-border cyber-glow-box">

@@ -40,14 +40,14 @@ const AuditProcess = () => {
   return (
     <section id="process" className="relative py-20 px-4 overflow-hidden">
       <div 
-        className="absolute inset-0 z-0 opacity-10"
+        className="absolute inset-0 z-0 opacity-6"
         style={{
           backgroundImage: `url(${heroBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundSize: '150%',
+          backgroundPosition: 'center right',
         }}
       />
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-background/80 to-background" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-l from-background via-background/90 to-background" />
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 cyber-glow">

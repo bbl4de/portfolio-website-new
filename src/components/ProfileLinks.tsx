@@ -51,14 +51,15 @@ const ProfileLinks = () => {
   return (
     <section id="profiles" className="relative py-20 px-4 overflow-hidden">
       <div 
-        className="absolute inset-0 z-0 opacity-10"
+        className="absolute inset-0 z-0 opacity-8"
         style={{
           backgroundImage: `url(${heroBg})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'bottom',
+          filter: 'blur(2px)',
         }}
       />
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-background/80 to-background" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-t from-background via-secondary/5 to-background" />
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 cyber-glow">

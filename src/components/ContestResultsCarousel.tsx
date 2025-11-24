@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import machFinanceLogo from "@/assets/logos/mach-finance.png";
 import infinifiLogo from "@/assets/logos/infinifi.png";
 import storyLogo from "@/assets/logos/story.png";
@@ -99,43 +99,52 @@ const contests: Contest[] = [
 
 const ContestResultsCarousel = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isHovering, setIsHovering] = useState(false);
+  const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
     let scrollPosition = 0;
-    const baseSpeed = 0.5; // pixels per frame
-    const maxSpeed = 2.5; // maximum speed when hovering
-    const accelerationRate = 0.05; // how fast it accelerates
-    let currentSpeed = baseSpeed;
+    const scrollSpeed = 0.5;
 
     const scroll = () => {
-      // Accelerate or decelerate based on hover state
-      if (isHovering) {
-        currentSpeed = Math.min(currentSpeed + accelerationRate, maxSpeed);
-      } else {
-        currentSpeed = Math.max(currentSpeed - accelerationRate, baseSpeed);
-      }
-
-      scrollPosition += currentSpeed;
+      scrollPosition += scrollSpeed;
       
-      // Reset scroll when we've scrolled past half the content
       if (scrollPosition >= scrollContainer.scrollWidth / 2) {
         scrollPosition = 0;
       }
       
       scrollContainer.scrollLeft = scrollPosition;
-      requestAnimationFrame(scroll);
+      animationRef.current = requestAnimationFrame(scroll);
     };
 
-    const animationId = requestAnimationFrame(scroll);
+    const handleMouseEnter = () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+    };
+
+    const handleMouseLeave = () => {
+      if (!animationRef.current) {
+        animationRef.current = requestAnimationFrame(scroll);
+      }
+    };
+
+    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
+    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+    
+    animationRef.current = requestAnimationFrame(scroll);
 
     return () => {
-      cancelAnimationFrame(animationId);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
+      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [isHovering]);
+  }, []);
 
   // Duplicate contests for infinite scroll effect
   const duplicatedContests = [...contests, ...contests];
@@ -143,14 +152,15 @@ const ContestResultsCarousel = () => {
   return (
     <section id="results" className="relative py-20 px-4 overflow-hidden">
       <div 
-        className="absolute inset-0 z-0 opacity-10"
+        className="absolute inset-0 z-0 opacity-5"
         style={{
           backgroundImage: `url(${heroBg})`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'top',
+          transform: 'scale(1.1)',
         }}
       />
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-background/80 to-background" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-background via-primary/5 to-background" />
       
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-12">
@@ -178,8 +188,6 @@ const ContestResultsCarousel = () => {
             ref={scrollContainerRef}
             className="flex gap-6 overflow-x-hidden"
             style={{ scrollBehavior: 'auto' }}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
           >
             {duplicatedContests.map((contest, index) => (
               <Card 
@@ -229,7 +237,7 @@ const ContestResultsCarousel = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-8">
-          Hover to speed up the carousel
+          Hover over cards to pause
         </p>
       </div>
     </section>
