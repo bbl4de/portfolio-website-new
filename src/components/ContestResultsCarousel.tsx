@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import machFinanceLogo from "@/assets/logos/mach-finance.png";
 import infinifiLogo from "@/assets/logos/infinifi.png";
 import storyLogo from "@/assets/logos/story.png";
@@ -99,16 +99,27 @@ const contests: Contest[] = [
 
 const ContestResultsCarousel = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
     let scrollPosition = 0;
-    const scrollSpeed = 0.5; // pixels per frame
+    const baseSpeed = 0.5; // pixels per frame
+    const maxSpeed = 2.5; // maximum speed when hovering
+    const accelerationRate = 0.05; // how fast it accelerates
+    let currentSpeed = baseSpeed;
 
     const scroll = () => {
-      scrollPosition += scrollSpeed;
+      // Accelerate or decelerate based on hover state
+      if (isHovering) {
+        currentSpeed = Math.min(currentSpeed + accelerationRate, maxSpeed);
+      } else {
+        currentSpeed = Math.max(currentSpeed - accelerationRate, baseSpeed);
+      }
+
+      scrollPosition += currentSpeed;
       
       // Reset scroll when we've scrolled past half the content
       if (scrollPosition >= scrollContainer.scrollWidth / 2) {
@@ -121,24 +132,10 @@ const ContestResultsCarousel = () => {
 
     const animationId = requestAnimationFrame(scroll);
 
-    // Pause on hover
-    const handleMouseEnter = () => {
-      cancelAnimationFrame(animationId);
-    };
-
-    const handleMouseLeave = () => {
-      requestAnimationFrame(scroll);
-    };
-
-    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
-    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
-
     return () => {
       cancelAnimationFrame(animationId);
-      scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
-      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, []);
+  }, [isHovering]);
 
   // Duplicate contests for infinite scroll effect
   const duplicatedContests = [...contests, ...contests];
@@ -169,7 +166,7 @@ const ContestResultsCarousel = () => {
               <span className="text-muted-foreground">severity findings</span>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="cyber-border text-primary text-base px-3 py-1">23 Medium</Badge>
+              <Badge variant="default" className="text-base px-3 py-1">23 Medium</Badge>
               <span className="text-muted-foreground">severity findings</span>
             </div>
           </div>
@@ -181,6 +178,8 @@ const ContestResultsCarousel = () => {
             ref={scrollContainerRef}
             className="flex gap-6 overflow-x-hidden"
             style={{ scrollBehavior: 'auto' }}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
           >
             {duplicatedContests.map((contest, index) => (
               <Card 
@@ -230,7 +229,7 @@ const ContestResultsCarousel = () => {
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-8">
-          Hover over cards to pause
+          Hover to speed up the carousel
         </p>
       </div>
     </section>
