@@ -28,7 +28,7 @@ const Starfield = () => {
       
       return {
         position: new Vector3(x, y, z),
-        velocity: Math.random() * 0.5 + 0.3,
+        velocity: Math.random() * 0.35 + 0.2,
         thickness: Math.random() > 0.9 ? Math.random() * 0.15 + 0.1 : Math.random() * 0.05 + 0.02,
         brightness: Math.random() > 0.85 ? Math.random() * 0.5 + 0.8 : Math.random() * 0.4 + 0.3,
         angle,
@@ -47,7 +47,7 @@ const Starfield = () => {
       
       return {
         position: new Vector3(x, y, z),
-        velocity: Math.random() * 0.4 + 0.2,
+        velocity: Math.random() * 0.3 + 0.15,
         angle,
         distance
       };
@@ -91,18 +91,18 @@ const Starfield = () => {
       const color = new Color();
       
       if (streak.brightness > 0.7) {
-        // Hero streaks: white to bright orange
+        // Hero streaks: white to darker orange
         color.setRGB(
-          1,
-          0.85 - distanceFactor * 0.3,
-          0.6 - distanceFactor * 0.5
+          0.95,
+          0.5 - distanceFactor * 0.25,
+          0.15 - distanceFactor * 0.12
         );
       } else {
-        // Regular streaks: amber to orange
+        // Regular streaks: darker amber to deep orange
         color.setRGB(
-          1,
-          0.6 - distanceFactor * 0.2,
-          0.2 - distanceFactor * 0.15
+          0.85,
+          0.4 - distanceFactor * 0.2,
+          0.08 - distanceFactor * 0.06
         );
       }
       
@@ -140,9 +140,9 @@ const Starfield = () => {
       dummy.updateMatrix();
       particlesRef.current.setMatrixAt(i, dummy.matrix);
       
-      // Particles are bright white-orange
+      // Particles are darker orange
       const distanceFactor = Math.min(particle.distance / 20, 1);
-      const color = new Color(1, 0.9 - distanceFactor * 0.3, 0.7 - distanceFactor * 0.5);
+      const color = new Color(0.9, 0.55 - distanceFactor * 0.25, 0.2 - distanceFactor * 0.15);
       particlesRef.current.setColorAt(i, color);
     });
     
