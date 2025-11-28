@@ -5,7 +5,6 @@ import AuditProcess from "@/components/AuditProcess";
 import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 import FloatingCTA from "@/components/FloatingCTA";
-import LightspeedSection from "@/components/LightspeedSection";
 
 const Index = () => {
   return (
@@ -13,10 +12,8 @@ const Index = () => {
       <Hero />
       <ContestResultsCarousel />
       <ProfileLinks />
-      <LightspeedSection>
-        <ContactCTA />
-        <AuditProcess />
-      </LightspeedSection>
+      <AuditProcess />
+      <ContactCTA />
       <Footer />
       <FloatingCTA />
     </div>
