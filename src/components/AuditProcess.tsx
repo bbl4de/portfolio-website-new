@@ -38,7 +38,7 @@ const processSteps: ProcessStep[] = [
 
 const AuditProcess = () => {
   return (
-    <section id="process" className="relative py-20 px-4 overflow-hidden bg-background">
+    <section id="process" className="relative py-20 px-4">
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 cyber-glow">

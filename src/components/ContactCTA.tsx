@@ -1,13 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquare, Mail, Twitter } from "lucide-react";
-import WarpSpeedBackground from "./WarpSpeedBackground";
 
 
 const ContactCTA = () => {
   return (
-    <section id="contact" className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden bg-[#0a0806]">
-      <WarpSpeedBackground />
+    <section id="contact" className="relative min-h-screen flex items-center justify-center px-4">
       <div className="container mx-auto relative z-10">
         <div className="max-w-4xl mx-auto">
           <Card className="bg-card/50 backdrop-blur cyber-border cyber-glow-box">
