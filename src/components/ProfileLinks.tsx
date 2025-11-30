@@ -20,21 +20,21 @@ interface Profile {
 const profiles: Profile[] = [
   {
     name: "Cantina",
-    platform: "Audit Platform",
-    description: "Smart contract security competitions",
+    platform: "Public Audit Competitions",
+    description: "",
     url: "https://cantina.xyz/u/bbl4de",
-    stats: "Fellowship 2024",
-    rank: "#89 • 97 reputation",
+    stats: "Resident & Judge",
+    rank: "#89th All time • 100 reputation",
     logo: cantinaLogo,
     isPrimary: true
   },
   {
     name: "Sherlock",
-    platform: "Audit Platform",
-    description: "DeFi security audits and contests",
+    platform: "Public Audit Competitions",
+    description: "",
     url: "https://audits.sherlock.xyz/watson/bbl4de",
-    stats: "Multiple top 10 finishes",
-    rank: "#241 All Time",
+    stats: "",
+    rank: undefined,
     logo: sherlockLogo,
     isPrimary: true
   },
@@ -43,14 +43,14 @@ const profiles: Profile[] = [
     platform: "Code Repository",
     description: "Security tools and research",
     url: "https://github.com/bbl4de",
-    stats: "Open source contributions",
+    stats: "",
     rank: undefined,
     logo: githubLogo
   },
   {
     name: "Twitter/X",
     platform: "Social Media",
-    description: "Security updates and research",
+    description: "",
     url: "https://x.com/bbl4de_xyz",
     stats: "@bbl4de_xyz",
     rank: undefined,
