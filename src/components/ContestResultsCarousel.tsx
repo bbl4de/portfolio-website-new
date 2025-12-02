@@ -162,11 +162,11 @@ const ContestResultsCarousel = () => {
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-6 text-base">
             <div className="flex items-center gap-2">
-              <Badge variant="destructive" className="text-base px-3 py-1">15 High</Badge>
+              <Badge variant="destructive" className="text-base px-3 py-1">17 High</Badge>
               <span className="text-muted-foreground">severity findings</span>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="default" className="text-base px-3 py-1">23 Medium</Badge>
+              <Badge variant="default" className="text-base px-3 py-1">25 Medium</Badge>
               <span className="text-muted-foreground">severity findings</span>
             </div>
           </div>
