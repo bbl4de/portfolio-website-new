@@ -19,9 +19,9 @@ const ContactCTA = () => {
             <CardContent className="space-y-8">
               <div className="text-center space-y-4">
                 <p className="text-muted-foreground text-lg">
-                  Available for private audits, security consultations, and bug bounty collaborations
+                  Available for private audits, PR reviews and mid-term collaborations
                 </p>
-                <div className="flex justify-center">
+                <div className="flex justify-center items-center">
                   <Button 
                     size="lg"
                     className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box"
@@ -29,7 +29,7 @@ const ContactCTA = () => {
                   >
                     <a href="https://t.me/bbl4de" target="_blank" rel="noopener noreferrer">
                       <MessageSquare className="mr-2 h-5 w-5" />
-                      Telegram
+                      Book via Telegram
                     </a>
                   </Button>
                 </div>
