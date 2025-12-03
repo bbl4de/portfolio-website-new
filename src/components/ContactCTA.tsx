@@ -17,11 +17,11 @@ const ContactCTA = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
-              <div className="text-center space-y-4">
+              <div className="text-center space-y-6">
                 <p className="text-muted-foreground text-lg">
                   Available for private audits, PR reviews and mid-term collaborations
                 </p>
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center py-4">
                   <Button 
                     size="lg"
                     className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box"

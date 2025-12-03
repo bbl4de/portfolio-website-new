@@ -72,49 +72,66 @@ const ProfileLinks = () => {
         {/* New Layout: Cantina on top, three boxes below */}
         <div className="max-w-5xl mx-auto space-y-6">
           {/* Cantina - Large Centered Featured Card */}
-          <a 
-            href={profiles[0].url} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="block"
+          <Card 
+            className="bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group relative overflow-hidden"
           >
-            <Card 
-              className="bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group relative overflow-hidden cursor-pointer"
-            >
-              <div className="absolute top-6 right-6 w-24 h-24 opacity-10 group-hover:opacity-20 transition-opacity">
-                <img src={profiles[0].logo} alt={profiles[0].name} className="w-full h-full object-contain" />
-              </div>
-              <CardHeader>
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-20 h-20 rounded-lg bg-background/50 p-4 flex items-center justify-center border border-primary/20">
-                    <img src={profiles[0].logo} alt={profiles[0].name} className="w-full h-full object-contain" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-3xl group-hover:text-primary transition-colors">
-                      {profiles[0].name}
-                    </CardTitle>
-                    <CardDescription className="text-base">
-                      {profiles[0].platform}
-                    </CardDescription>
-                  </div>
+            <CardHeader>
+              <a 
+                href={profiles[0].url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 mb-4"
+              >
+                <div className="w-20 h-20 rounded-lg bg-background/50 p-4 flex items-center justify-center border border-primary/20">
+                  <img src={profiles[0].logo} alt={profiles[0].name} className="w-full h-full object-contain" />
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
+                <div>
+                  <CardTitle className="text-3xl group-hover:text-primary transition-colors">
+                    {profiles[0].name}
+                  </CardTitle>
+                  <CardDescription className="text-base">
+                    {profiles[0].platform}
+                  </CardDescription>
+                </div>
+              </a>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+                <a 
+                  href={profiles[0].url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="space-y-2"
+                >
                   <p className="text-lg text-primary font-semibold">
                     {profiles[0].stats}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     {profiles[0].rank}
                   </p>
-                  <div className="pt-2 space-y-1 text-sm text-muted-foreground">
-                    <p>Gamma Strategies - Uniswap V4 limit & scale orders | 100+ submissions</p>
-                    <p>Kuru-DEX on Monad (CLOB) | 1100+ submissions</p>
-                  </div>
+                </a>
+                <div className="space-y-3">
+                  <p className="text-sm text-muted-foreground font-medium">Judging:</p>
+                  <a 
+                    href="https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Gamma Strategies - Uniswap V4 limit & scale orders | 100+ submissions
+                  </a>
+                  <a 
+                    href="https://cantina.xyz/code/cdce21ba-b787-4df4-9c56-b31d085388e7/overview"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Kuru-DEX on Monad (CLOB) | 1100+ submissions
+                  </a>
                 </div>
-              </CardContent>
-            </Card>
-          </a>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Sherlock, GitHub, X - Three Equal Cards in a Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
