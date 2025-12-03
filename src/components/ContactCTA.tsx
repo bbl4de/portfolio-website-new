@@ -16,26 +16,27 @@ const ContactCTA = () => {
                 Need a Security Audit?
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-8">
-              <div className="text-center space-y-6">
+            <CardContent>
+              <div className="text-center">
                 <p className="text-muted-foreground text-lg">
                   Available for private audits, PR reviews and mid-term collaborations
                 </p>
-                <div className="flex justify-center py-4">
-                  <Button 
-                    size="lg"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box"
-                    asChild
-                  >
-                    <a href="https://t.me/bbl4de" target="_blank" rel="noopener noreferrer">
-                      <MessageSquare className="mr-2 h-5 w-5" />
-                      Book via Telegram
-                    </a>
-                  </Button>
-                </div>
+              </div>
+              
+              <div className="flex justify-center items-center py-16">
+                <Button 
+                  size="lg"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box"
+                  asChild
+                >
+                  <a href="https://t.me/bbl4de" target="_blank" rel="noopener noreferrer">
+                    <MessageSquare className="mr-2 h-5 w-5" />
+                    Book via Telegram
+                  </a>
+                </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="text-center p-4">
                   <div className="text-3xl font-bold text-primary mb-2">24-48h</div>
                   <div className="text-sm text-muted-foreground">Response Time</div>
