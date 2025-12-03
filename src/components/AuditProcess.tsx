@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle2, Phone, MessageSquareText, FileText, Search, Handshake } from "lucide-react";
+import { Phone, MessageSquareText, FileText, Search, Handshake } from "lucide-react";
 
 
 interface ProcessStep {
@@ -61,16 +61,11 @@ const AuditProcess = () => {
                 return (
                   <Card 
                     key={index}
-                    className="relative ml-20 bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group"
+                    className="relative ml-20 bg-card/50 backdrop-blur cyber-border transition-all duration-300 group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(234,88,12,0.4)]"
                   >
                     {/* Step number circle */}
                     <div className="absolute -left-[4.5rem] top-6 w-16 h-16 rounded-full bg-card border-2 border-primary flex items-center justify-center cyber-glow-box">
                       <span className="text-2xl font-bold text-primary">{index + 1}</span>
-                    </div>
-                    
-                    {/* Check icon */}
-                    <div className="absolute -left-20 top-8 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                      <CheckCircle2 className="h-6 w-6 text-primary" />
                     </div>
 
                     <CardContent className="pt-6 pb-6">
