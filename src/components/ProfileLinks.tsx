@@ -75,12 +75,12 @@ const ProfileLinks = () => {
           <Card 
             className="bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group relative overflow-hidden"
           >
-            <CardHeader>
+            <CardHeader className="text-center">
               <a 
                 href={profiles[0].url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 mb-4"
+                className="flex flex-col items-center gap-4 mb-4"
               >
                 <div className="w-20 h-20 rounded-lg bg-background/50 p-4 flex items-center justify-center border border-primary/20">
                   <img src={profiles[0].logo} alt={profiles[0].name} className="w-full h-full object-contain" />
