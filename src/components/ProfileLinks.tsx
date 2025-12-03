@@ -97,21 +97,8 @@ const ProfileLinks = () => {
             </CardHeader>
             <CardContent>
               <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-                <a 
-                  href={profiles[0].url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="space-y-2"
-                >
-                  <p className="text-lg text-primary font-semibold">
-                    {profiles[0].stats}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {profiles[0].rank}
-                  </p>
-                </a>
-                <div className="space-y-3">
-                  <p className="text-sm text-muted-foreground font-medium">Judging:</p>
+                <div className="space-y-3 md:order-2">
+                  <p className="text-lg text-primary font-semibold">Judging</p>
                   <a 
                     href="https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1"
                     target="_blank"
@@ -129,6 +116,19 @@ const ProfileLinks = () => {
                     Kuru-DEX on Monad (CLOB) | 1100+ submissions
                   </a>
                 </div>
+                <a 
+                  href={profiles[0].url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="space-y-2 md:order-1"
+                >
+                  <p className="text-lg text-primary font-semibold">
+                    {profiles[0].stats}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {profiles[0].rank}
+                  </p>
+                </a>
               </div>
             </CardContent>
           </Card>
