@@ -17,8 +17,8 @@ const Hero = () => {
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-background/50 to-background" />
       
       <div className="container mx-auto px-4 z-10 text-center">
-        <Badge variant="outline" className="mb-6 cyber-border text-primary animate-pulse-glow">
-          Web3 Security Researcher
+        <Badge variant="outline" className="mb-6 cyber-border text-primary animate-pulse-glow text-base px-4 py-1">
+          Independent Security Researcher
         </Badge>
         
         <div className="mb-6 flex justify-center">
