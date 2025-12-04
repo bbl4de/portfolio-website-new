@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
-import profilePic from "@/assets/profile.jpg";
+import profilePic from "@/assets/profile-2.jpg";
 
 const Hero = () => {
   return (
