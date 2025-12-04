@@ -1,30 +1,4 @@
-import { useEffect, useState } from "react";
-
-interface LoadingScreenProps {
-  onLoadComplete: () => void;
-  minLoadTime?: number;
-}
-
-const LoadingScreen = ({ onLoadComplete, minLoadTime = 2000 }: LoadingScreenProps) => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const startTime = Date.now();
-    
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const newProgress = Math.min((elapsed / minLoadTime) * 100, 100);
-      setProgress(newProgress);
-      
-      if (elapsed >= minLoadTime) {
-        clearInterval(interval);
-        onLoadComplete();
-      }
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, [minLoadTime, onLoadComplete]);
-
+const LoadingScreen = () => {
   return (
     <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center">
       {/* Logo/Name */}
@@ -34,11 +8,10 @@ const LoadingScreen = ({ onLoadComplete, minLoadTime = 2000 }: LoadingScreenProp
         </h1>
       </div>
 
-      {/* Loading bar */}
+      {/* Animated loading bar */}
       <div className="w-64 h-1 bg-muted rounded-full overflow-hidden">
         <div 
-          className="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-100 ease-out"
-          style={{ width: `${progress}%` }}
+          className="h-full bg-gradient-to-r from-primary to-secondary animate-loading-bar"
         />
       </div>
 
