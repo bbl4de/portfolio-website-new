@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,29 +7,21 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import LoadingScreen from "./components/LoadingScreen";
-import WarpSpeedBackground from "./components/WarpSpeedBackground";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleLoadComplete = useCallback(() => {
-    setIsLoading(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        {isLoading && (
-          <>
-            <LoadingScreen />
-            {/* Hidden preloader for WarpSpeedBackground */}
-            <div className="fixed opacity-0 pointer-events-none" style={{ width: 1, height: 1 }}>
-              <WarpSpeedBackground onReady={handleLoadComplete} />
-            </div>
-          </>
-        )}
+        {isLoading && <LoadingScreen />}
         <div className={isLoading ? "opacity-0" : "opacity-100 transition-opacity duration-500"}>
           <Toaster />
           <Sonner />
