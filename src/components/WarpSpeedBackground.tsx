@@ -167,13 +167,23 @@ const Starfield = () => {
   );
 };
 
-const WarpSpeedBackground = () => {
+interface WarpSpeedBackgroundProps {
+  onReady?: () => void;
+}
+
+const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
   return (
     <div className="absolute inset-0 w-full h-full">
       <Canvas
         camera={{ position: [0, 0, 15], fov: 60 }}
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 2]}
+        onCreated={() => {
+          // Give a small delay for the first frame to render
+          setTimeout(() => {
+            onReady?.();
+          }, 100);
+        }}
       >
         <color attach="background" args={['#0a0806']} />
         <fog attach="fog" args={['#0a0806', 10, 35]} />
