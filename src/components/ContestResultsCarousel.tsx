@@ -150,16 +150,13 @@ const ContestResultsCarousel = () => {
   const duplicatedContests = [...contests, ...contests];
 
   return (
-    <section id="results" className="relative py-20 px-4 overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background">
+    <section id="results" className="relative min-h-screen py-20 px-4 overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background flex flex-col justify-center">
       
       <div className="container mx-auto relative z-10">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 cyber-glow">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 cyber-glow">
             Contest Results
           </h2>
-          <p className="text-muted-foreground text-lg">
-            Public audit competitions
-          </p>
           <div className="mt-6 flex flex-wrap justify-center gap-6 text-base">
             <div className="flex items-center gap-2">
               <Badge variant="destructive" className="text-base px-3 py-1">17 High</Badge>
@@ -176,38 +173,38 @@ const ContestResultsCarousel = () => {
         <div className="relative overflow-hidden">
           <div 
             ref={scrollContainerRef}
-            className="flex gap-6 overflow-x-hidden"
+            className="flex gap-8 overflow-x-hidden"
             style={{ scrollBehavior: 'auto' }}
           >
             {duplicatedContests.map((contest, index) => (
               <Card 
                 key={index} 
-                className="flex-shrink-0 w-[380px] bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group"
+                className="flex-shrink-0 w-[480px] bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group"
               >
-                <CardHeader>
-                  <div className="flex justify-between items-start mb-2">
+                <CardHeader className="pb-4">
+                  <div className="flex justify-between items-start mb-4">
                     <img 
                       src={contest.logo} 
                       alt={`${contest.contest} logo`}
-                      className="w-12 h-12 rounded-lg object-cover"
+                      className="w-16 h-16 rounded-lg object-cover"
                     />
-                    <Badge variant="outline" className="cyber-border text-primary">
+                    <Badge variant="outline" className="cyber-border text-primary text-base px-4 py-1">
                       {contest.platform}
                     </Badge>
                   </div>
-                  <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                  <CardTitle className="text-2xl group-hover:text-primary transition-colors">
                     {contest.contest}
                   </CardTitle>
-                  <CardDescription className="text-muted-foreground font-semibold">
+                  <CardDescription className="text-muted-foreground font-semibold text-lg">
                     {contest.rank}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="text-xs text-muted-foreground">
+                <CardContent className="space-y-4">
+                  <div className="text-sm text-muted-foreground">
                     {contest.tech}
                   </div>
                   <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
+                    <div className="flex justify-between text-base">
                       <span className="text-muted-foreground">Findings:</span>
                       <span className="font-semibold">{contest.findings}</span>
                     </div>
@@ -216,19 +213,15 @@ const ContestResultsCarousel = () => {
                     href={contest.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors mt-2"
+                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mt-4"
                   >
-                    View Details <ExternalLink className="h-3 w-3" />
+                    View Details <ExternalLink className="h-4 w-4" />
                   </a>
                 </CardContent>
               </Card>
             ))}
           </div>
         </div>
-
-        <p className="text-center text-sm text-muted-foreground mt-8">
-          Hover over cards to pause
-        </p>
       </div>
     </section>
   );

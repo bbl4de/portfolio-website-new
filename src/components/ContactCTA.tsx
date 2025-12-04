@@ -25,12 +25,11 @@ const ContactCTA = () => {
               
               <div className="flex justify-center items-center py-16">
                 <Button 
-                  size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box h-20 px-12 text-2xl font-bold rounded-xl"
                   asChild
                 >
                   <a href="https://t.me/bbl4de" target="_blank" rel="noopener noreferrer">
-                    <MessageSquare className="mr-2 h-5 w-5" />
+                    <MessageSquare className="mr-3 h-8 w-8" />
                     Book via Telegram
                   </a>
                 </Button>
