@@ -2,8 +2,8 @@ import { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { InstancedMesh, Object3D, Vector3, Color } from 'three';
 
-const STREAK_COUNT = 800;
-const PARTICLE_COUNT = 200;
+const STREAK_COUNT = 400;
+const PARTICLE_COUNT = 100;
 
 interface Streak {
   position: Vector3;
@@ -179,10 +179,7 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 2]}
         onCreated={() => {
-          // Give a small delay for the first frame to render
-          setTimeout(() => {
-            onReady?.();
-          }, 100);
+          onReady?.();
         }}
       >
         <color attach="background" args={['#0a0806']} />
