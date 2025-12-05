@@ -11,27 +11,27 @@ interface ProcessStep {
 const processSteps: ProcessStep[] = [
   {
     title: "Determining the Scope / Entry Call",
-    description: "Initial consultation to understand your protocol, define audit scope, and establish timelines",
+    description: "",
     icon: Phone
   },
   {
-    title: "Manual Review with Real-Time Comms",
-    description: "Deep dive security analysis with continuous communication channels for questions and updates",
+    title: "Manual Review with Real-Time Communication",
+    description: "",
     icon: MessageSquareText
   },
   {
     title: "Draft Report",
-    description: "Comprehensive findings document with severity classifications and detailed vulnerability analysis",
+    description: "",
     icon: FileText
   },
   {
     title: "Fix Review",
-    description: "Verification of implemented fixes and validation that vulnerabilities are properly addressed",
+    description: "",
     icon: Search
   },
   {
     title: "Final Report & Future Engagements",
-    description: "Delivery of final audit report and discussion of ongoing security partnership opportunities",
+    description: "",
     icon: Handshake
   }
 ];
@@ -74,12 +74,14 @@ const AuditProcess = () => {
                           <IconComponent className="h-6 w-6 text-primary" />
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
+                          <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
                             {step.title}
                           </h3>
-                          <p className="text-muted-foreground">
-                            {step.description}
-                          </p>
+                          {step.description && (
+                            <p className="text-muted-foreground mt-2">
+                              {step.description}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </CardContent>
