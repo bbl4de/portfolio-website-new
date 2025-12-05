@@ -149,6 +149,23 @@ const ContestResultsCarousel = () => {
   // Duplicate contests for infinite scroll effect
   const duplicatedContests = [...contests, ...contests];
 
+  const judgingCards = [
+    {
+      name: "Gamma Strategies",
+      description: "UniV4 limit & scale orders",
+      tech: "Solidity",
+      submissions: "100+",
+      url: "https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1"
+    },
+    {
+      name: "Kuru Exchange",
+      description: "DEX on Monad (CLOB)",
+      tech: "Solidity",
+      submissions: "1100+",
+      url: "https://cantina.xyz/code/cdce21ba-b787-4df4-9c56-b31d085388e7/overview"
+    }
+  ];
+
   return (
     <section id="results" className="relative min-h-screen py-20 px-4 overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background flex flex-col justify-center">
       
@@ -221,6 +238,55 @@ const ContestResultsCarousel = () => {
               </Card>
             ))}
           </div>
+        </div>
+
+        {/* Judging Section */}
+        <div className="text-center mt-24 mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 cyber-glow">
+            Judging
+          </h2>
+        </div>
+
+        <div className="flex justify-center gap-8">
+          {judgingCards.map((judging, index) => (
+            <Card 
+              key={index} 
+              className="w-[480px] bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group"
+            >
+              <CardHeader className="pb-4">
+                <div className="flex justify-between items-start mb-4">
+                  <Badge variant="outline" className="cyber-border text-primary text-base px-4 py-1">
+                    Cantina
+                  </Badge>
+                </div>
+                <CardTitle className="text-2xl group-hover:text-primary transition-colors">
+                  {judging.name}
+                </CardTitle>
+                <CardDescription className="text-muted-foreground font-semibold text-lg">
+                  {judging.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-sm text-muted-foreground">
+                  {judging.tech}
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-base">
+                    <span className="text-muted-foreground">Submissions:</span>
+                    <span className="font-semibold">{judging.submissions}</span>
+                  </div>
+                </div>
+                <a 
+                  href={judging.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mt-4"
+                >
+                  View Details <ExternalLink className="h-4 w-4" />
+                </a>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </div>
     </section>

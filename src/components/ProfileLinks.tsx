@@ -69,75 +69,12 @@ const ProfileLinks = () => {
           </p>
         </div>
 
-        {/* New Layout: Cantina on top, three boxes below */}
-        <div className="max-w-5xl mx-auto space-y-6">
-          {/* Cantina - Large Centered Featured Card */}
-          <Card 
-            className="bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group relative overflow-hidden"
-          >
-            <CardHeader>
-              <a 
-                href={profiles[0].url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-4 mb-4"
-              >
-                <div className="w-20 h-20 rounded-lg bg-background/50 p-4 flex items-center justify-center border border-primary/20">
-                  <img src={profiles[0].logo} alt={profiles[0].name} className="w-full h-full object-contain" />
-                </div>
-                <div>
-                  <CardTitle className="text-3xl group-hover:text-primary transition-colors">
-                    {profiles[0].name}
-                  </CardTitle>
-                  <CardDescription className="text-base">
-                    {profiles[0].platform}
-                  </CardDescription>
-                </div>
-              </a>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
-                <div className="space-y-3 md:order-2">
-                  <p className="text-lg text-primary font-semibold">Judging</p>
-                  <a 
-                    href="https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Gamma Strategies - Uniswap V4 limit & scale orders | 100+ submissions
-                  </a>
-                  <a 
-                    href="https://cantina.xyz/code/cdce21ba-b787-4df4-9c56-b31d085388e7/overview"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Kuru-DEX on Monad (CLOB) | 1100+ submissions
-                  </a>
-                </div>
-                <a 
-                  href={profiles[0].url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="space-y-2 md:order-1"
-                >
-                  <p className="text-lg text-primary font-semibold">
-                    {profiles[0].stats}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {profiles[0].rank}
-                  </p>
-                </a>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Sherlock, GitHub, X - Three Equal Cards in a Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Sherlock */}
+        {/* Four symmetrical cards */}
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+          {profiles.map((profile, index) => (
             <a 
-              href={profiles[1].url} 
+              key={index}
+              href={profile.url} 
               target="_blank" 
               rel="noopener noreferrer"
               className="block"
@@ -147,69 +84,27 @@ const ProfileLinks = () => {
               >
                 <CardHeader className="space-y-4">
                   <div className="w-16 h-16 rounded-lg bg-background/50 p-3 flex items-center justify-center border border-primary/20 mx-auto">
-                    <img src={profiles[1].logo} alt={profiles[1].name} className="w-full h-full object-contain" />
+                    <img src={profile.logo} alt={profile.name} className="w-full h-full object-contain" />
                   </div>
                   <div className="text-center">
                     <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                      {profiles[1].name}
+                      {profile.name}
                     </CardTitle>
-                    <CardDescription className="text-sm mt-2">
-                      {profiles[1].platform}
-                    </CardDescription>
+                    {profile.stats && (
+                      <CardDescription className="text-sm mt-2 text-primary font-medium">
+                        {profile.stats}
+                      </CardDescription>
+                    )}
+                    {profile.platform && !profile.stats && (
+                      <CardDescription className="text-sm mt-2">
+                        {profile.platform}
+                      </CardDescription>
+                    )}
                   </div>
                 </CardHeader>
               </Card>
             </a>
-
-            {/* GitHub */}
-            <a 
-              href={profiles[2].url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <Card 
-                className="bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group cursor-pointer h-full"
-              >
-                <CardHeader className="space-y-4">
-                  <div className="w-16 h-16 rounded-lg bg-background/50 p-3 flex items-center justify-center border border-primary/20 mx-auto">
-                    <img src={profiles[2].logo} alt={profiles[2].name} className="w-full h-full object-contain" />
-                  </div>
-                  <div className="text-center">
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                      {profiles[2].name}
-                    </CardTitle>
-                  </div>
-                </CardHeader>
-              </Card>
-            </a>
-
-            {/* Twitter/X */}
-            <a 
-              href={profiles[3].url} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <Card 
-                className="bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group cursor-pointer h-full"
-              >
-                <CardHeader className="space-y-4">
-                  <div className="w-16 h-16 rounded-lg bg-background/50 p-3 flex items-center justify-center border border-primary/20 mx-auto">
-                    <img src={profiles[3].logo} alt={profiles[3].name} className="w-full h-full object-contain" />
-                  </div>
-                  <div className="text-center">
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                      {profiles[3].name}
-                    </CardTitle>
-                    <CardDescription className="text-sm mt-2">
-                      {profiles[3].platform}
-                    </CardDescription>
-                  </div>
-                </CardHeader>
-              </Card>
-            </a>
-          </div>
+          ))}
         </div>
       </div>
     </section>
