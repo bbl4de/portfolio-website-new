@@ -57,9 +57,7 @@ const AuditProcess = () => {
                   </div>
                   
                   {/* Icon */}
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <IconComponent className="h-5 w-5 text-primary" />
-                  </div>
+                  <IconComponent className="h-5 w-5 text-primary flex-shrink-0" />
                   
                   {/* Title */}
                   <h3 className="text-lg font-bold group-hover:text-primary transition-colors whitespace-nowrap">
