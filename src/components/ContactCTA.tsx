@@ -29,7 +29,7 @@ const ContactCTA = () => {
                   asChild
                 >
                   <a href="https://t.me/bbl4de" target="_blank" rel="noopener noreferrer">
-                    <MessageSquare className="mr-3" />
+                    <MessageSquare className="mr-3 h-8 w-8" />
                     Book via Telegram
                   </a>
                 </Button>
