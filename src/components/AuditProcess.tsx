@@ -1,37 +1,30 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Phone, MessageSquareText, FileText, Search, Handshake } from "lucide-react";
 
-
 interface ProcessStep {
   title: string;
-  description: string;
   icon: React.ElementType;
 }
 
 const processSteps: ProcessStep[] = [
   {
     title: "Determining the Scope / Entry Call",
-    description: "",
     icon: Phone
   },
   {
     title: "Manual Review with Real-Time Communication",
-    description: "",
     icon: MessageSquareText
   },
   {
     title: "Draft Report",
-    description: "",
     icon: FileText
   },
   {
     title: "Fix Review",
-    description: "",
     icon: Search
   },
   {
     title: "Final Report & Future Engagements",
-    description: "",
     icon: Handshake
   }
 ];
@@ -49,47 +42,33 @@ const AuditProcess = () => {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-secondary to-primary opacity-30" />
-            
-            {/* Process steps */}
-            <div className="space-y-8">
-              {processSteps.map((step, index) => {
-                const IconComponent = step.icon;
-                return (
-                  <Card 
-                    key={index}
-                    className="relative ml-20 bg-card/50 backdrop-blur cyber-border transition-all duration-300 group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(234,88,12,0.4)]"
-                  >
-                    {/* Step number circle */}
-                    <div className="absolute -left-[4.5rem] top-6 w-16 h-16 rounded-full bg-card border-2 border-primary flex items-center justify-center cyber-glow-box">
-                      <span className="text-2xl font-bold text-primary">{index + 1}</span>
-                    </div>
-
-                    <CardContent className="pt-6 pb-6">
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <IconComponent className="h-6 w-6 text-primary" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
-                            {step.title}
-                          </h3>
-                          {step.description && (
-                            <p className="text-muted-foreground mt-2">
-                              {step.description}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
+        <div className="flex flex-col items-center gap-6">
+          {processSteps.map((step, index) => {
+            const IconComponent = step.icon;
+            return (
+              <Card 
+                key={index}
+                className="relative bg-card/50 backdrop-blur cyber-border transition-all duration-300 group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(234,88,12,0.4)] w-fit"
+              >
+                <CardContent className="py-4 px-6 flex items-center gap-4">
+                  {/* Step number circle */}
+                  <div className="w-12 h-12 rounded-full bg-card border-2 border-primary flex items-center justify-center transition-all duration-300 group-hover:bg-primary group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(234,88,12,0.6)]">
+                    <span className="text-xl font-bold text-primary transition-colors duration-300 group-hover:text-white">{index + 1}</span>
+                  </div>
+                  
+                  {/* Icon */}
+                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <IconComponent className="h-5 w-5 text-primary" />
+                  </div>
+                  
+                  {/* Title */}
+                  <h3 className="text-lg font-bold group-hover:text-primary transition-colors whitespace-nowrap">
+                    {step.title}
+                  </h3>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>
