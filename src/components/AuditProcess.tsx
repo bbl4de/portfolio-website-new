@@ -48,7 +48,7 @@ const AuditProcess = () => {
             return (
               <Card 
                 key={index}
-                className="relative bg-card/50 backdrop-blur cyber-border transition-all duration-300 group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(234,88,12,0.4)] w-fit"
+                className="relative bg-card/50 backdrop-blur cyber-border transition-all duration-300 group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(234,88,12,0.4)] w-full max-w-xl"
               >
                 <CardContent className="py-4 px-6 flex items-center gap-4">
                   {/* Step number circle */}
