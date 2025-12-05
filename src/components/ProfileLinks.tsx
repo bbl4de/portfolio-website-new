@@ -38,7 +38,7 @@ const profiles: Profile[] = [
   },
   {
     name: "GitHub",
-    platform: "",
+    platform: "@bbl4de",
     description: "",
     url: "https://github.com/bbl4de",
     stats: "",
