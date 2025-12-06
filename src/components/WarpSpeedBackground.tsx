@@ -26,9 +26,9 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
       py: number;
     }> = [];
 
-    const STAR_COUNT = 400;
-    const SPEED = 0.015;
-    const MAX_DEPTH = 32;
+    const STAR_COUNT = 500;
+    const SPEED = 0.5;
+    const MAX_DEPTH = 1000;
 
     const resize = () => {
       canvas.width = canvas.offsetWidth;
@@ -50,37 +50,44 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
     };
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(10, 8, 6, 0.15)';
+      // Clear with solid color for smooth continuous motion
+      ctx.fillStyle = '#0a0806';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       const cx = canvas.width / 2;
       const cy = canvas.height / 2;
 
       for (const star of stars) {
-        star.px = star.x;
-        star.py = star.y;
+        // Store previous z for trail calculation
+        const prevZ = star.z;
+        
+        // Continuous linear movement
+        star.z -= SPEED;
 
-        star.z -= SPEED * (MAX_DEPTH - star.z + 1);
-
-        if (star.z <= 0) {
-          star.x = Math.random() * canvas.width - cx;
-          star.y = Math.random() * canvas.height - cy;
+        if (star.z <= 1) {
+          star.x = (Math.random() - 0.5) * canvas.width;
+          star.y = (Math.random() - 0.5) * canvas.height;
           star.z = MAX_DEPTH;
           star.px = star.x;
           star.py = star.y;
+          continue;
         }
 
-        const scale = MAX_DEPTH / star.z;
+        const scale = 128 / star.z;
         const x = star.x * scale + cx;
         const y = star.y * scale + cy;
 
-        const prevScale = MAX_DEPTH / (star.z + SPEED * (MAX_DEPTH - star.z + 1));
+        // Calculate previous position for streak
+        const prevScale = 128 / prevZ;
         const px = star.px * prevScale + cx;
         const py = star.py * prevScale + cy;
 
+        // Skip if outside canvas
+        if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) continue;
+
         const depth = 1 - star.z / MAX_DEPTH;
-        const alpha = depth * 0.8 + 0.2;
-        const lineWidth = depth * 2 + 0.5;
+        const alpha = Math.min(1, depth * 1.2 + 0.1);
+        const lineWidth = depth * 2.5 + 0.3;
 
         // Orange/amber gradient based on depth
         const r = Math.floor(234 + depth * 21);
@@ -92,15 +99,19 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
         ctx.lineTo(x, y);
         ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
         ctx.lineWidth = lineWidth;
+        ctx.lineCap = 'round';
         ctx.stroke();
 
         // Add glow for closer stars
-        if (depth > 0.7) {
+        if (depth > 0.6) {
           ctx.beginPath();
-          ctx.arc(x, y, lineWidth * 1.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 180, 100, ${(depth - 0.7) * 0.5})`;
+          ctx.arc(x, y, lineWidth * 1.2, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 180, 100, ${(depth - 0.6) * 0.4})`;
           ctx.fill();
         }
+
+        star.px = star.x;
+        star.py = star.y;
       }
 
       animationId = requestAnimationFrame(animate);
