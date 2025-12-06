@@ -50,7 +50,6 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
     };
 
     const animate = () => {
-      // Clear with solid color for smooth continuous motion
       ctx.fillStyle = '#0a0806';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -58,11 +57,6 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
       const cy = canvas.height / 2;
 
       for (const star of stars) {
-        // Calculate current position before moving
-        const currScale = 128 / star.z;
-        const x = star.x * currScale + cx;
-        const y = star.y * currScale + cy;
-        
         // Move star forward
         star.z -= SPEED;
 
@@ -73,27 +67,43 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
           continue;
         }
 
-        // Calculate new position after moving (this creates the streak)
-        const newScale = 128 / star.z;
-        const nx = star.x * newScale + cx;
-        const ny = star.y * newScale + cy;
+        const scale = 128 / star.z;
+        const x = star.x * scale + cx;
+        const y = star.y * scale + cy;
 
         // Skip if outside canvas
-        if (nx < 0 || nx > canvas.width || ny < 0 || ny > canvas.height) continue;
+        if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) continue;
 
         const depth = 1 - star.z / MAX_DEPTH;
+        
+        // Calculate streak length based on depth (closer = longer streaks)
+        const streakLength = depth * 40 + 5;
+        
+        // Calculate direction from center for streak orientation
+        const dx = x - cx;
+        const dy = y - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const nx = dx / (dist || 1);
+        const ny = dy / (dist || 1);
+        
+        // Streak endpoints (line extends outward from center)
+        const x1 = x - nx * streakLength * 0.3;
+        const y1 = y - ny * streakLength * 0.3;
+        const x2 = x + nx * streakLength * 0.7;
+        const y2 = y + ny * streakLength * 0.7;
+
         const alpha = Math.min(1, depth * 1.2 + 0.1);
-        const lineWidth = depth * 2.5 + 0.3;
+        const lineWidth = depth * 2.5 + 0.5;
 
         // Orange/amber gradient based on depth
         const r = Math.floor(234 + depth * 21);
         const g = Math.floor(88 + depth * 50);
         const b = Math.floor(12 + depth * 10);
 
-        // Draw streak from old position to new position
+        // Draw the flying line
         ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(nx, ny);
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
         ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
         ctx.lineWidth = lineWidth;
         ctx.lineCap = 'round';
@@ -102,7 +112,7 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
         // Add glow for closer stars
         if (depth > 0.6) {
           ctx.beginPath();
-          ctx.arc(nx, ny, lineWidth * 1.2, 0, Math.PI * 2);
+          ctx.arc(x2, y2, lineWidth * 1.5, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255, 180, 100, ${(depth - 0.6) * 0.4})`;
           ctx.fill();
         }
