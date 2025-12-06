@@ -1,147 +1,140 @@
-import { useEffect, useRef } from 'react';
+import { useRef, useMemo, useEffect } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
 
 interface WarpSpeedBackgroundProps {
   onReady?: () => void;
 }
 
-const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
+  const meshRef = useRef<THREE.Points>(null);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  
+  const STAR_COUNT = 800;
+  const SPEED = 0.012;
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Call onReady immediately since this is lightweight
     onReady?.();
-
-    let animationId: number;
-    let stars: Array<{
-      x: number;
-      y: number;
-      z: number;
-      px: number;
-      py: number;
-    }> = [];
-
-    const STAR_COUNT = 500;
-    const SPEED = 0.6; // 20% faster
-    const MAX_DEPTH = 1000;
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-      initStars();
-    };
-
-    const initStars = () => {
-      stars = [];
-      for (let i = 0; i < STAR_COUNT; i++) {
-        stars.push({
-          x: Math.random() * canvas.width - canvas.width / 2,
-          y: Math.random() * canvas.height - canvas.height / 2,
-          z: Math.random() * MAX_DEPTH,
-          px: 0,
-          py: 0,
-        });
-      }
-    };
-
-    const animate = () => {
-      // Motion blur effect - semi-transparent fill instead of solid
-      ctx.fillStyle = 'rgba(10, 8, 6, 0.15)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      const cx = canvas.width / 2;
-      const cy = canvas.height / 2;
-
-      for (const star of stars) {
-        // Move star forward
-        star.z -= SPEED;
-
-        if (star.z <= 1) {
-          star.x = (Math.random() - 0.5) * canvas.width;
-          star.y = (Math.random() - 0.5) * canvas.height;
-          star.z = MAX_DEPTH;
-          continue;
-        }
-
-        const scale = 128 / star.z;
-        const x = star.x * scale + cx;
-        const y = star.y * scale + cy;
-
-        // Skip if outside canvas
-        if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) continue;
-
-        const depth = 1 - star.z / MAX_DEPTH;
-        
-        // Calculate streak length based on depth (closer = longer streaks)
-        const streakLength = depth * 40 + 5;
-        
-        // Calculate direction from center for streak orientation
-        const dx = x - cx;
-        const dy = y - cy;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const nx = dx / (dist || 1);
-        const ny = dy / (dist || 1);
-        
-        // Streak endpoints (line extends outward from center)
-        const x1 = x - nx * streakLength * 0.3;
-        const y1 = y - ny * streakLength * 0.3;
-        const x2 = x + nx * streakLength * 0.7;
-        const y2 = y + ny * streakLength * 0.7;
-
-        const alpha = Math.min(1, depth * 1.2 + 0.1);
-        const lineWidth = depth * 2.5 + 0.5;
-
-        // Orange/amber gradient based on depth
-        const r = Math.floor(234 + depth * 21);
-        const g = Math.floor(88 + depth * 50);
-        const b = Math.floor(12 + depth * 10);
-
-        // Draw the flying line
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
-        ctx.lineWidth = lineWidth;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-
-        // Add glow for closer stars
-        if (depth > 0.6) {
-          ctx.beginPath();
-          ctx.arc(x2, y2, lineWidth * 1.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 180, 100, ${(depth - 0.6) * 0.4})`;
-          ctx.fill();
-        }
-      }
-
-      animationId = requestAnimationFrame(animate);
-    };
-
-    resize();
-    animate();
-
-    window.addEventListener('resize', resize);
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationId);
-    };
   }, [onReady]);
 
+  const { positions, velocities, sizes } = useMemo(() => {
+    const positions = new Float32Array(STAR_COUNT * 3);
+    const velocities = new Float32Array(STAR_COUNT);
+    const sizes = new Float32Array(STAR_COUNT);
+
+    for (let i = 0; i < STAR_COUNT; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const radius = Math.random() * 15 + 2;
+      
+      positions[i * 3] = Math.cos(theta) * radius;
+      positions[i * 3 + 1] = Math.sin(theta) * radius;
+      positions[i * 3 + 2] = Math.random() * 100 - 50;
+      
+      velocities[i] = Math.random() * 0.5 + 0.5;
+      sizes[i] = Math.random() * 2 + 1;
+    }
+
+    return { positions, velocities, sizes };
+  }, []);
+
+  const geometry = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('velocity', new THREE.BufferAttribute(velocities, 1));
+    geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+    return geo;
+  }, [positions, velocities, sizes]);
+
+  const shaderMaterial = useMemo(() => {
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        color1: { value: new THREE.Color('#ea580c') },
+        color2: { value: new THREE.Color('#ffb464') },
+      },
+      vertexShader: `
+        attribute float velocity;
+        attribute float size;
+        varying float vZ;
+        varying float vVelocity;
+        
+        void main() {
+          vZ = position.z;
+          vVelocity = velocity;
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          gl_PointSize = size * (50.0 / -mvPosition.z);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 color1;
+        uniform vec3 color2;
+        varying float vZ;
+        varying float vVelocity;
+        
+        void main() {
+          float depth = smoothstep(-50.0, 50.0, vZ);
+          vec3 color = mix(color1, color2, depth);
+          
+          vec2 center = gl_PointCoord - 0.5;
+          float dist = length(center);
+          
+          // Create elongated streak shape
+          float streak = 1.0 - smoothstep(0.0, 0.5, dist);
+          streak *= smoothstep(0.5, 0.0, abs(center.y) * 2.0);
+          
+          float alpha = streak * (0.3 + depth * 0.7);
+          
+          gl_FragColor = vec4(color, alpha);
+        }
+      `,
+      transparent: true,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+  }, []);
+
+  useFrame((state, delta) => {
+    if (!meshRef.current) return;
+    
+    const positions = meshRef.current.geometry.attributes.position.array as Float32Array;
+    
+    for (let i = 0; i < STAR_COUNT; i++) {
+      positions[i * 3 + 2] += SPEED * 100 * velocities[i];
+      
+      if (positions[i * 3 + 2] > 50) {
+        const theta = Math.random() * Math.PI * 2;
+        const radius = Math.random() * 15 + 2;
+        positions[i * 3] = Math.cos(theta) * radius;
+        positions[i * 3 + 1] = Math.sin(theta) * radius;
+        positions[i * 3 + 2] = -50;
+      }
+    }
+    
+    meshRef.current.geometry.attributes.position.needsUpdate = true;
+    
+    if (materialRef.current) {
+      materialRef.current.uniforms.time.value = state.clock.elapsedTime;
+    }
+  });
+
+  return (
+    <points ref={meshRef} geometry={geometry} material={shaderMaterial}>
+      <primitive object={shaderMaterial} ref={materialRef} attach="material" />
+    </points>
+  );
+};
+
+const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
   return (
     <div className="absolute inset-0 w-full h-full">
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
+      <Canvas
+        camera={{ position: [0, 0, 30], fov: 75, near: 0.1, far: 1000 }}
         style={{ background: '#0a0806' }}
-      />
-      
-      {/* Center overlay removed - lines go behind the center box */}
+        gl={{ alpha: false, antialias: true }}
+      >
+        <WarpStreaks onReady={onReady} />
+      </Canvas>
       
       {/* Subtle film grain texture */}
       <div 
