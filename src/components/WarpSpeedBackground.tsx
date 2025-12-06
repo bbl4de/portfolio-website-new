@@ -58,32 +58,28 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
       const cy = canvas.height / 2;
 
       for (const star of stars) {
-        // Store previous z for trail calculation
-        const prevZ = star.z;
+        // Calculate current position before moving
+        const currScale = 128 / star.z;
+        const x = star.x * currScale + cx;
+        const y = star.y * currScale + cy;
         
-        // Continuous linear movement
+        // Move star forward
         star.z -= SPEED;
 
         if (star.z <= 1) {
           star.x = (Math.random() - 0.5) * canvas.width;
           star.y = (Math.random() - 0.5) * canvas.height;
           star.z = MAX_DEPTH;
-          star.px = star.x;
-          star.py = star.y;
           continue;
         }
 
-        const scale = 128 / star.z;
-        const x = star.x * scale + cx;
-        const y = star.y * scale + cy;
-
-        // Calculate previous position for streak
-        const prevScale = 128 / prevZ;
-        const px = star.px * prevScale + cx;
-        const py = star.py * prevScale + cy;
+        // Calculate new position after moving (this creates the streak)
+        const newScale = 128 / star.z;
+        const nx = star.x * newScale + cx;
+        const ny = star.y * newScale + cy;
 
         // Skip if outside canvas
-        if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) continue;
+        if (nx < 0 || nx > canvas.width || ny < 0 || ny > canvas.height) continue;
 
         const depth = 1 - star.z / MAX_DEPTH;
         const alpha = Math.min(1, depth * 1.2 + 0.1);
@@ -94,9 +90,10 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
         const g = Math.floor(88 + depth * 50);
         const b = Math.floor(12 + depth * 10);
 
+        // Draw streak from old position to new position
         ctx.beginPath();
-        ctx.moveTo(px, py);
-        ctx.lineTo(x, y);
+        ctx.moveTo(x, y);
+        ctx.lineTo(nx, ny);
         ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
         ctx.lineWidth = lineWidth;
         ctx.lineCap = 'round';
@@ -105,13 +102,10 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
         // Add glow for closer stars
         if (depth > 0.6) {
           ctx.beginPath();
-          ctx.arc(x, y, lineWidth * 1.2, 0, Math.PI * 2);
+          ctx.arc(nx, ny, lineWidth * 1.2, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(255, 180, 100, ${(depth - 0.6) * 0.4})`;
           ctx.fill();
         }
-
-        star.px = star.x;
-        star.py = star.y;
       }
 
       animationId = requestAnimationFrame(animate);
