@@ -10,7 +10,7 @@ const ContactCTA = () => {
       <WarpSpeedBackground />
       <div className="container mx-auto relative z-10">
         <div className="max-w-4xl mx-auto">
-          <Card className="bg-card/50 backdrop-blur cyber-border cyber-glow-box">
+          <Card className="bg-transparent border-none shadow-none">
             <CardHeader className="text-center pb-4">
               <CardTitle className="text-4xl md:text-5xl font-bold mb-4 cyber-glow">
                 Need a Security Audit?
