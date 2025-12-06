@@ -27,7 +27,7 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
     }> = [];
 
     const STAR_COUNT = 500;
-    const SPEED = 0.5;
+    const SPEED = 0.6; // 20% faster
     const MAX_DEPTH = 1000;
 
     const resize = () => {
@@ -50,7 +50,8 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
     };
 
     const animate = () => {
-      ctx.fillStyle = '#0a0806';
+      // Motion blur effect - semi-transparent fill instead of solid
+      ctx.fillStyle = 'rgba(10, 8, 6, 0.15)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       const cx = canvas.width / 2;
@@ -140,13 +141,7 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
         style={{ background: '#0a0806' }}
       />
       
-      {/* Center vignette overlay for text readability */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(10, 8, 6, 0.7) 0%, rgba(10, 8, 6, 0.3) 40%, transparent 70%)'
-        }}
-      />
+      {/* Center overlay removed - lines go behind the center box */}
       
       {/* Subtle film grain texture */}
       <div 
