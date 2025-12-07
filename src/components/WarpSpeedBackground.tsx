@@ -1,315 +1,139 @@
 import { useRef, useMemo, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, extend } from '@react-three/fiber';
 import * as THREE from 'three';
+
+// Extend Three.js elements for R3F
+extend({ Line_: THREE.Line });
 
 interface WarpSpeedBackgroundProps {
   onReady?: () => void;
 }
 
-const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
-  const meshRef = useRef<THREE.Points>(null);
-  const materialRef = useRef<THREE.ShaderMaterial>(null);
-  const particlesRef = useRef<THREE.Points>(null);
-  const particleMaterialRef = useRef<THREE.ShaderMaterial>(null);
-  
-  const STREAK_COUNT = 400;
-  const HERO_STREAK_COUNT = 60;
-  const PARTICLE_COUNT = 100;
-  const SPEED = 0.003; // Much slower speed
+interface StreakData {
+  startRadius: number;
+  angle: number;
+  z: number;
+  speed: number;
+  length: number;
+  brightness: number;
+}
+
+// Star Wars hyperspace-style streaks
+const HyperspaceStreaks = ({ onReady }: { onReady?: () => void }) => {
+  const STREAK_COUNT = 300;
+  const SPEED = 0.4;
 
   useEffect(() => {
     onReady?.();
   }, [onReady]);
 
-  // Main streaks
-  const streakData = useMemo(() => {
-    const positions = new Float32Array((STREAK_COUNT + HERO_STREAK_COUNT) * 3);
-    const velocities = new Float32Array(STREAK_COUNT + HERO_STREAK_COUNT);
-    const sizes = new Float32Array(STREAK_COUNT + HERO_STREAK_COUNT);
-    const isHero = new Float32Array(STREAK_COUNT + HERO_STREAK_COUNT);
+  const streaksRef = useRef<StreakData[]>([]);
+  const linesRef = useRef<(THREE.Line | null)[]>([]);
 
-    // Regular thin streaks
+  // Initialize streak data
+  const initialStreaks = useMemo(() => {
+    const arr: StreakData[] = [];
     for (let i = 0; i < STREAK_COUNT; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const radius = Math.random() * 20 + 1;
-      
-      positions[i * 3] = Math.cos(theta) * radius;
-      positions[i * 3 + 1] = Math.sin(theta) * radius;
-      positions[i * 3 + 2] = Math.random() * 100 - 50;
-      
-      velocities[i] = Math.random() * 0.4 + 0.6;
-      sizes[i] = Math.random() * 1.5 + 0.5;
-      isHero[i] = 0.0;
+      arr.push({
+        angle: Math.random() * Math.PI * 2,
+        startRadius: Math.random() * 15 + 2,
+        z: Math.random() * 200 - 100,
+        speed: Math.random() * 0.5 + 0.5,
+        length: Math.random() * 10 + 5,
+        brightness: Math.random() * 0.5 + 0.5,
+      });
     }
-
-    // Hero streaks (thicker, brighter)
-    for (let i = STREAK_COUNT; i < STREAK_COUNT + HERO_STREAK_COUNT; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const radius = Math.random() * 18 + 3;
-      
-      positions[i * 3] = Math.cos(theta) * radius;
-      positions[i * 3 + 1] = Math.sin(theta) * radius;
-      positions[i * 3 + 2] = Math.random() * 100 - 50;
-      
-      velocities[i] = Math.random() * 0.3 + 0.7;
-      sizes[i] = Math.random() * 3 + 2;
-      isHero[i] = 1.0;
-    }
-
-    return { positions, velocities, sizes, isHero };
+    streaksRef.current = arr;
+    return arr;
   }, []);
 
-  // Particle stars
-  const particleData = useMemo(() => {
-    const positions = new Float32Array(PARTICLE_COUNT * 3);
-    const velocities = new Float32Array(PARTICLE_COUNT);
-    const sizes = new Float32Array(PARTICLE_COUNT);
-
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const radius = Math.random() * 25 + 2;
+  // Create geometries and materials
+  const lineData = useMemo(() => {
+    return initialStreaks.map((streak) => {
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(6);
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       
-      positions[i * 3] = Math.cos(theta) * radius;
-      positions[i * 3 + 1] = Math.sin(theta) * radius;
-      positions[i * 3 + 2] = Math.random() * 100 - 50;
+      const intensity = streak.brightness;
+      const material = new THREE.LineBasicMaterial({
+        color: new THREE.Color(1.0 * intensity, 0.5 * intensity, 0.1 * intensity),
+        transparent: true,
+        opacity: 0.7,
+      });
       
-      velocities[i] = Math.random() * 0.3 + 0.5;
-      sizes[i] = Math.random() * 0.8 + 0.3;
-    }
-
-    return { positions, velocities, sizes };
-  }, []);
-
-  const streakGeometry = useMemo(() => {
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(streakData.positions, 3));
-    geo.setAttribute('velocity', new THREE.BufferAttribute(streakData.velocities, 1));
-    geo.setAttribute('size', new THREE.BufferAttribute(streakData.sizes, 1));
-    geo.setAttribute('isHero', new THREE.BufferAttribute(streakData.isHero, 1));
-    return geo;
-  }, [streakData]);
-
-  const particleGeometry = useMemo(() => {
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(particleData.positions, 3));
-    geo.setAttribute('velocity', new THREE.BufferAttribute(particleData.velocities, 1));
-    geo.setAttribute('size', new THREE.BufferAttribute(particleData.sizes, 1));
-    return geo;
-  }, [particleData]);
-
-  const streakMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        time: { value: 0 },
-      },
-      vertexShader: `
-        attribute float velocity;
-        attribute float size;
-        attribute float isHero;
-        varying float vZ;
-        varying float vVelocity;
-        varying float vIsHero;
-        varying vec2 vPosition;
-        
-        void main() {
-          vZ = position.z;
-          vVelocity = velocity;
-          vIsHero = isHero;
-          vPosition = position.xy;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = size * (80.0 / -mvPosition.z) * (isHero > 0.5 ? 2.0 : 1.0);
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
-      fragmentShader: `
-        varying float vZ;
-        varying float vVelocity;
-        varying float vIsHero;
-        varying vec2 vPosition;
-        
-        void main() {
-          float depth = smoothstep(-50.0, 50.0, vZ);
-          
-          // Pure orange color gradient
-          vec3 coreColor = vec3(1.0, 0.55, 0.1);   // Bright orange core
-          vec3 midColor = vec3(0.95, 0.4, 0.05);  // Saturated orange
-          vec3 outerColor = vec3(0.8, 0.3, 0.0);  // Deep orange
-          vec3 emberColor = vec3(0.4, 0.15, 0.02); // Ember fade
-          
-          vec3 color;
-          if (depth < 0.3) {
-            color = mix(emberColor, outerColor, depth / 0.3);
-          } else if (depth < 0.6) {
-            color = mix(outerColor, midColor, (depth - 0.3) / 0.3);
-          } else {
-            color = mix(midColor, coreColor, (depth - 0.6) / 0.4);
-          }
-          
-          vec2 center = gl_PointCoord - 0.5;
-          
-          // Calculate radial direction from center of screen
-          vec2 dir = normalize(vPosition);
-          
-          // Rotate UV to align streak with radial direction
-          float angle = atan(dir.y, dir.x);
-          float cosA = cos(-angle);
-          float sinA = sin(-angle);
-          vec2 rotatedCenter = vec2(
-            center.x * cosA - center.y * sinA,
-            center.x * sinA + center.y * cosA
-          );
-          
-          // Create elongated flare shape pointing outward
-          float flareLength = 0.45;
-          float flareWidth = 0.06 + (vIsHero > 0.5 ? 0.04 : 0.0);
-          
-          // Flare body - elongated in radial direction
-          float flare = 1.0 - smoothstep(0.0, flareWidth, abs(rotatedCenter.y));
-          flare *= 1.0 - smoothstep(0.0, flareLength, abs(rotatedCenter.x));
-          
-          // Taper the flare at the tail
-          float taper = smoothstep(-flareLength, 0.0, rotatedCenter.x);
-          flare *= mix(0.3, 1.0, taper);
-          
-          // Add glow around the flare
-          float glow = exp(-length(rotatedCenter) * 4.0) * 0.5;
-          flare += glow * (vIsHero > 0.5 ? 1.2 : 0.7);
-          
-          float alpha = flare * (0.4 + depth * 0.6);
-          alpha *= vIsHero > 0.5 ? 1.0 : 0.75;
-          
-          gl_FragColor = vec4(color, alpha);
-        }
-      `,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
+      const line = new THREE.Line(geometry, material);
+      return line;
     });
-  }, []);
+  }, [initialStreaks]);
 
-  const particleMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        time: { value: 0 },
-      },
-      vertexShader: `
-        attribute float velocity;
-        attribute float size;
-        varying float vZ;
-        varying vec2 vPosition;
+  useFrame(() => {
+    streaksRef.current.forEach((streak, i) => {
+      streak.z += SPEED * streak.speed;
+      
+      if (streak.z > 50) {
+        streak.z = -150;
+        streak.angle = Math.random() * Math.PI * 2;
+        streak.startRadius = Math.random() * 15 + 2;
+      }
+
+      const line = lineData[i];
+      if (line) {
+        const positions = line.geometry.attributes.position.array as Float32Array;
         
-        void main() {
-          vZ = position.z;
-          vPosition = position.xy;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = size * (40.0 / -mvPosition.z);
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
-      fragmentShader: `
-        varying float vZ;
-        varying vec2 vPosition;
+        const perspectiveNear = Math.max(0.1, (streak.z + 100) / 150);
+        const perspectiveFar = Math.max(0.1, (streak.z + 100 - streak.length) / 150);
         
-        void main() {
-          float depth = smoothstep(-50.0, 50.0, vZ);
-          vec3 color = mix(vec3(0.6, 0.25, 0.02), vec3(1.0, 0.5, 0.1), depth);
-          
-          vec2 center = gl_PointCoord - 0.5;
-          
-          // Radial direction
-          vec2 dir = normalize(vPosition);
-          float angle = atan(dir.y, dir.x);
-          float cosA = cos(-angle);
-          float sinA = sin(-angle);
-          vec2 rotatedCenter = vec2(
-            center.x * cosA - center.y * sinA,
-            center.x * sinA + center.y * cosA
-          );
-          
-          // Small radial flare
-          float flare = 1.0 - smoothstep(0.0, 0.1, abs(rotatedCenter.y));
-          flare *= 1.0 - smoothstep(0.0, 0.35, abs(rotatedCenter.x));
-          
-          float alpha = flare * (0.25 + depth * 0.4);
-          
-          gl_FragColor = vec4(color, alpha);
-        }
-      `,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false,
+        const x1 = Math.cos(streak.angle) * streak.startRadius * perspectiveNear;
+        const y1 = Math.sin(streak.angle) * streak.startRadius * perspectiveNear;
+        const z1 = streak.z;
+        
+        const x2 = Math.cos(streak.angle) * streak.startRadius * perspectiveFar;
+        const y2 = Math.sin(streak.angle) * streak.startRadius * perspectiveFar;
+        const z2 = streak.z - streak.length;
+        
+        positions[0] = x1;
+        positions[1] = y1;
+        positions[2] = z1;
+        positions[3] = x2;
+        positions[4] = y2;
+        positions[5] = z2;
+        
+        line.geometry.attributes.position.needsUpdate = true;
+        
+        const material = line.material as THREE.LineBasicMaterial;
+        const fadeIn = Math.min(1, (streak.z + 100) / 50);
+        const fadeOut = Math.min(1, (50 - streak.z) / 30);
+        material.opacity = streak.brightness * fadeIn * fadeOut * 0.8;
+      }
     });
-  }, []);
-
-  useFrame((state) => {
-    if (!meshRef.current || !particlesRef.current) return;
-    
-    const streakPositions = meshRef.current.geometry.attributes.position.array as Float32Array;
-    const particlePositions = particlesRef.current.geometry.attributes.position.array as Float32Array;
-    
-    // Animate streaks
-    for (let i = 0; i < STREAK_COUNT + HERO_STREAK_COUNT; i++) {
-      streakPositions[i * 3 + 2] += SPEED * 100 * streakData.velocities[i];
-      
-      if (streakPositions[i * 3 + 2] > 50) {
-        const theta = Math.random() * Math.PI * 2;
-        const radius = Math.random() * 20 + 1;
-        streakPositions[i * 3] = Math.cos(theta) * radius;
-        streakPositions[i * 3 + 1] = Math.sin(theta) * radius;
-        streakPositions[i * 3 + 2] = -50;
-      }
-    }
-    
-    // Animate particles
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particlePositions[i * 3 + 2] += SPEED * 80 * particleData.velocities[i];
-      
-      if (particlePositions[i * 3 + 2] > 50) {
-        const theta = Math.random() * Math.PI * 2;
-        const radius = Math.random() * 25 + 2;
-        particlePositions[i * 3] = Math.cos(theta) * radius;
-        particlePositions[i * 3 + 1] = Math.sin(theta) * radius;
-        particlePositions[i * 3 + 2] = -50;
-      }
-    }
-    
-    meshRef.current.geometry.attributes.position.needsUpdate = true;
-    particlesRef.current.geometry.attributes.position.needsUpdate = true;
-    
-    if (materialRef.current) {
-      materialRef.current.uniforms.time.value = state.clock.elapsedTime;
-    }
-    if (particleMaterialRef.current) {
-      particleMaterialRef.current.uniforms.time.value = state.clock.elapsedTime;
-    }
   });
 
   return (
-    <>
-      <points ref={meshRef} geometry={streakGeometry} material={streakMaterial}>
-        <primitive object={streakMaterial} ref={materialRef} attach="material" />
-      </points>
-      <points ref={particlesRef} geometry={particleGeometry} material={particleMaterial}>
-        <primitive object={particleMaterial} ref={particleMaterialRef} attach="material" />
-      </points>
-    </>
+    <group>
+      {lineData.map((line, i) => (
+        <primitive key={i} object={line} />
+      ))}
+    </group>
   );
 };
 
 const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
   return (
-    <div className="absolute inset-0 w-full h-full bg-background">
+    <div 
+      className="absolute inset-0 w-full h-full"
+      style={{ backgroundColor: 'hsl(0, 0%, 6%)' }}
+    >
       <Canvas
-        camera={{ position: [0, 0, 30], fov: 75, near: 0.1, far: 1000 }}
+        camera={{ position: [0, 0, 30], fov: 60, near: 0.1, far: 500 }}
         gl={{ alpha: true, antialias: true }}
         style={{ background: 'transparent' }}
       >
-        <WarpStreaks onReady={onReady} />
+        <HyperspaceStreaks onReady={onReady} />
       </Canvas>
       
       {/* Subtle film grain texture */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.02]"
+        className="absolute inset-0 pointer-events-none opacity-[0.015]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
         }}
