@@ -109,13 +109,15 @@ const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
         varying float vZ;
         varying float vVelocity;
         varying float vIsHero;
+        varying vec2 vPosition;
         
         void main() {
           vZ = position.z;
           vVelocity = velocity;
           vIsHero = isHero;
+          vPosition = position.xy;
           vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = size * (60.0 / -mvPosition.z) * (isHero > 0.5 ? 1.5 : 1.0);
+          gl_PointSize = size * (80.0 / -mvPosition.z) * (isHero > 0.5 ? 2.0 : 1.0);
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -123,15 +125,16 @@ const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
         varying float vZ;
         varying float vVelocity;
         varying float vIsHero;
+        varying vec2 vPosition;
         
         void main() {
           float depth = smoothstep(-50.0, 50.0, vZ);
           
-          // Pure orange color gradient - no white
-          vec3 coreColor = vec3(1.0, 0.6, 0.1);   // Bright orange core
-          vec3 midColor = vec3(0.95, 0.45, 0.05); // Saturated orange
-          vec3 outerColor = vec3(0.85, 0.35, 0.0); // Deep orange
-          vec3 emberColor = vec3(0.5, 0.2, 0.05);  // Ember fade
+          // Pure orange color gradient
+          vec3 coreColor = vec3(1.0, 0.55, 0.1);   // Bright orange core
+          vec3 midColor = vec3(0.95, 0.4, 0.05);  // Saturated orange
+          vec3 outerColor = vec3(0.8, 0.3, 0.0);  // Deep orange
+          vec3 emberColor = vec3(0.4, 0.15, 0.02); // Ember fade
           
           vec3 color;
           if (depth < 0.3) {
@@ -143,19 +146,37 @@ const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
           }
           
           vec2 center = gl_PointCoord - 0.5;
-          float dist = length(center);
           
-          // Elongated line shape - much more stretched horizontally
-          float lineWidth = 0.08; // Thin line
-          float streak = 1.0 - smoothstep(0.0, lineWidth, abs(center.y));
-          streak *= 1.0 - smoothstep(0.3, 0.5, abs(center.x));
+          // Calculate radial direction from center of screen
+          vec2 dir = normalize(vPosition);
           
-          // Add subtle glow around the line
-          float glow = exp(-abs(center.y) * 8.0) * 0.4;
-          streak += glow * (vIsHero > 0.5 ? 1.0 : 0.6);
+          // Rotate UV to align streak with radial direction
+          float angle = atan(dir.y, dir.x);
+          float cosA = cos(-angle);
+          float sinA = sin(-angle);
+          vec2 rotatedCenter = vec2(
+            center.x * cosA - center.y * sinA,
+            center.x * sinA + center.y * cosA
+          );
           
-          float alpha = streak * (0.5 + depth * 0.5);
-          alpha *= vIsHero > 0.5 ? 1.0 : 0.8;
+          // Create elongated flare shape pointing outward
+          float flareLength = 0.45;
+          float flareWidth = 0.06 + (vIsHero > 0.5 ? 0.04 : 0.0);
+          
+          // Flare body - elongated in radial direction
+          float flare = 1.0 - smoothstep(0.0, flareWidth, abs(rotatedCenter.y));
+          flare *= 1.0 - smoothstep(0.0, flareLength, abs(rotatedCenter.x));
+          
+          // Taper the flare at the tail
+          float taper = smoothstep(-flareLength, 0.0, rotatedCenter.x);
+          flare *= mix(0.3, 1.0, taper);
+          
+          // Add glow around the flare
+          float glow = exp(-length(rotatedCenter) * 4.0) * 0.5;
+          flare += glow * (vIsHero > 0.5 ? 1.2 : 0.7);
+          
+          float alpha = flare * (0.4 + depth * 0.6);
+          alpha *= vIsHero > 0.5 ? 1.0 : 0.75;
           
           gl_FragColor = vec4(color, alpha);
         }
@@ -175,31 +196,41 @@ const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
         attribute float velocity;
         attribute float size;
         varying float vZ;
+        varying vec2 vPosition;
         
         void main() {
           vZ = position.z;
+          vPosition = position.xy;
           vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = size * (30.0 / -mvPosition.z);
+          gl_PointSize = size * (40.0 / -mvPosition.z);
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
       fragmentShader: `
         varying float vZ;
+        varying vec2 vPosition;
         
         void main() {
           float depth = smoothstep(-50.0, 50.0, vZ);
-          // Orange particles instead of white
-          vec3 color = mix(vec3(0.7, 0.3, 0.05), vec3(1.0, 0.5, 0.1), depth);
+          vec3 color = mix(vec3(0.6, 0.25, 0.02), vec3(1.0, 0.5, 0.1), depth);
           
           vec2 center = gl_PointCoord - 0.5;
-          float dist = length(center);
           
-          // Small line shape
-          float lineWidth = 0.1;
-          float line = 1.0 - smoothstep(0.0, lineWidth, abs(center.y));
-          line *= 1.0 - smoothstep(0.2, 0.4, abs(center.x));
+          // Radial direction
+          vec2 dir = normalize(vPosition);
+          float angle = atan(dir.y, dir.x);
+          float cosA = cos(-angle);
+          float sinA = sin(-angle);
+          vec2 rotatedCenter = vec2(
+            center.x * cosA - center.y * sinA,
+            center.x * sinA + center.y * cosA
+          );
           
-          float alpha = line * (0.3 + depth * 0.4);
+          // Small radial flare
+          float flare = 1.0 - smoothstep(0.0, 0.1, abs(rotatedCenter.y));
+          flare *= 1.0 - smoothstep(0.0, 0.35, abs(rotatedCenter.x));
+          
+          float alpha = flare * (0.25 + depth * 0.4);
           
           gl_FragColor = vec4(color, alpha);
         }
@@ -267,26 +298,18 @@ const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
 
 const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
   return (
-    <div className="absolute inset-0 w-full h-full">
+    <div className="absolute inset-0 w-full h-full bg-background">
       <Canvas
         camera={{ position: [0, 0, 30], fov: 75, near: 0.1, far: 1000 }}
-        style={{ background: 'radial-gradient(ellipse at center, #1a120a 0%, #0a0806 50%, #050403 100%)' }}
-        gl={{ alpha: false, antialias: true }}
+        gl={{ alpha: true, antialias: true }}
+        style={{ background: 'transparent' }}
       >
         <WarpStreaks onReady={onReady} />
       </Canvas>
       
-      {/* Vignette overlay - darkest at center for text readability */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.2) 100%)',
-        }}
-      />
-      
       {/* Subtle film grain texture */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none opacity-[0.02]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
         }}
