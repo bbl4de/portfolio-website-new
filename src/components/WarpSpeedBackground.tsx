@@ -12,10 +12,10 @@ const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
   const particlesRef = useRef<THREE.Points>(null);
   const particleMaterialRef = useRef<THREE.ShaderMaterial>(null);
   
-  const STREAK_COUNT = 600;
-  const HERO_STREAK_COUNT = 80;
-  const PARTICLE_COUNT = 200;
-  const SPEED = 0.015;
+  const STREAK_COUNT = 400;
+  const HERO_STREAK_COUNT = 60;
+  const PARTICLE_COUNT = 100;
+  const SPEED = 0.003; // Much slower speed
 
   useEffect(() => {
     onReady?.();
@@ -127,11 +127,11 @@ const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
         void main() {
           float depth = smoothstep(-50.0, 50.0, vZ);
           
-          // Warm orange/amber color gradient
-          vec3 coreColor = vec3(1.0, 1.0, 0.95); // White-hot core
-          vec3 midColor = vec3(1.0, 0.85, 0.6);  // Pale apricot
-          vec3 outerColor = vec3(0.95, 0.5, 0.15); // Saturated orange
-          vec3 emberColor = vec3(0.6, 0.25, 0.1);  // Ember fade
+          // Pure orange color gradient - no white
+          vec3 coreColor = vec3(1.0, 0.6, 0.1);   // Bright orange core
+          vec3 midColor = vec3(0.95, 0.45, 0.05); // Saturated orange
+          vec3 outerColor = vec3(0.85, 0.35, 0.0); // Deep orange
+          vec3 emberColor = vec3(0.5, 0.2, 0.05);  // Ember fade
           
           vec3 color;
           if (depth < 0.3) {
@@ -145,16 +145,17 @@ const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
           vec2 center = gl_PointCoord - 0.5;
           float dist = length(center);
           
-          // Elongated streak shape with motion blur
-          float streak = 1.0 - smoothstep(0.0, 0.5, dist);
-          streak *= smoothstep(0.5, 0.0, abs(center.y) * 1.8);
+          // Elongated line shape - much more stretched horizontally
+          float lineWidth = 0.08; // Thin line
+          float streak = 1.0 - smoothstep(0.0, lineWidth, abs(center.y));
+          streak *= 1.0 - smoothstep(0.3, 0.5, abs(center.x));
           
-          // Add bloom/glow effect
-          float glow = exp(-dist * 3.0) * 0.5;
-          streak += glow * (vIsHero > 0.5 ? 1.2 : 0.8);
+          // Add subtle glow around the line
+          float glow = exp(-abs(center.y) * 8.0) * 0.4;
+          streak += glow * (vIsHero > 0.5 ? 1.0 : 0.6);
           
-          float alpha = streak * (0.4 + depth * 0.6);
-          alpha *= vIsHero > 0.5 ? 1.0 : 0.7;
+          float alpha = streak * (0.5 + depth * 0.5);
+          alpha *= vIsHero > 0.5 ? 1.0 : 0.8;
           
           gl_FragColor = vec4(color, alpha);
         }
@@ -187,16 +188,18 @@ const WarpStreaks = ({ onReady }: { onReady?: () => void }) => {
         
         void main() {
           float depth = smoothstep(-50.0, 50.0, vZ);
-          vec3 color = mix(vec3(0.9, 0.5, 0.2), vec3(1.0, 0.9, 0.7), depth);
+          // Orange particles instead of white
+          vec3 color = mix(vec3(0.7, 0.3, 0.05), vec3(1.0, 0.5, 0.1), depth);
           
           vec2 center = gl_PointCoord - 0.5;
           float dist = length(center);
           
-          // Small dot that stretches slightly
-          float dot = 1.0 - smoothstep(0.0, 0.4, dist);
-          dot *= smoothstep(0.5, 0.0, abs(center.y) * 2.5);
+          // Small line shape
+          float lineWidth = 0.1;
+          float line = 1.0 - smoothstep(0.0, lineWidth, abs(center.y));
+          line *= 1.0 - smoothstep(0.2, 0.4, abs(center.x));
           
-          float alpha = dot * (0.3 + depth * 0.5);
+          float alpha = line * (0.3 + depth * 0.4);
           
           gl_FragColor = vec4(color, alpha);
         }
