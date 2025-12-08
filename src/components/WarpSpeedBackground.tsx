@@ -56,9 +56,10 @@ const HyperspaceStreaks = ({ onReady }: { onReady?: () => void }) => {
       
       const intensity = streak.brightness;
       const material = new THREE.LineBasicMaterial({
-        color: new THREE.Color(1.0 * intensity, 0.5 * intensity, 0.1 * intensity),
+        color: new THREE.Color(0.85 * intensity, 0.35 * intensity, 0.05 * intensity),
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.9,
+        linewidth: 3,
       });
       
       const line = new THREE.Line(geometry, material);
