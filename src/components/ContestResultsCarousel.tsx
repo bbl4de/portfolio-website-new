@@ -10,6 +10,11 @@ import beraborrowLogo from "@/assets/logos/beraborrow.png";
 import alloraLogo from "@/assets/logos/allora.png";
 import debitaLogo from "@/assets/logos/debita.png";
 import citreaLogo from "@/assets/logos/citrea.png";
+import spaceAndTimeLogo from "@/assets/logos/space-and-time.svg";
+import opLabsLogo from "@/assets/logos/op-labs.svg";
+import privacyCashLogo from "@/assets/logos/privacy-cash.svg";
+import gammaStrategiesLogo from "@/assets/logos/gamma-strategies.svg";
+import kuruExchangeLogo from "@/assets/logos/kuru-exchange.svg";
 
 
 interface Contest {
@@ -70,6 +75,15 @@ const contests: Contest[] = [
   },
   {
     platform: "Sherlock",
+    contest: "Privacy-cash",
+    rank: "No H/M contest",
+    findings: "N/A",
+    url: "https://www.privacycash.org/",
+    tech: "Rust + Circom • Solana privacy pool (Groth16)",
+    logo: privacyCashLogo
+  },
+  {
+    platform: "Sherlock",
     contest: "Allora v0.8.0",
     rank: "11th Place",
     findings: "Private",
@@ -85,6 +99,24 @@ const contests: Contest[] = [
     url: "https://audits.sherlock.xyz/contests/627/leaderboard",
     tech: "Solidity • Lending + NFT marketplace",
     logo: debitaLogo
+  },
+  {
+    platform: "Cantina",
+    contest: "Space and Time",
+    rank: "4th Place",
+    findings: "5 Medium, 4 Low",
+    url: "https://cantina.xyz/code/3cc30b66-1cba-4044-968f-a0817cd7bf83/findings?s=created_by%253Abbl4de%2520order_by%253Aseverity_asc",
+    tech: "Rust + Solidity • reth-based L1 - ZK proofs for SQL data",
+    logo: spaceAndTimeLogo
+  },
+  {
+    platform: "Cantina",
+    contest: "OPLabs interop-portal",
+    rank: "No H/M contest",
+    findings: "1 Low, 4 Informational",
+    url: "https://cantina.xyz/code/44b385bf-e51a-4e6c-b3a8-adbbe24d16e1/findings?s=-status%253Aspam%252Cwithdrawn%2520created_by%253Abbl4de",
+    tech: "Solidity • OP Superchain scalability component",
+    logo: opLabsLogo
   },
   {
     platform: "Cantina",
@@ -106,7 +138,7 @@ const ContestResultsCarousel = () => {
     if (!scrollContainer) return;
 
     let scrollPosition = 0;
-    const scrollSpeed = 0.5;
+    const scrollSpeed = 0.55;
 
     const scroll = () => {
       scrollPosition += scrollSpeed;
@@ -127,6 +159,8 @@ const ContestResultsCarousel = () => {
     };
 
     const handleMouseLeave = () => {
+      // Resume from the user's current scroll position to avoid jumps
+      scrollPosition = scrollContainer.scrollLeft;
       if (!animationRef.current) {
         animationRef.current = requestAnimationFrame(scroll);
       }
@@ -155,14 +189,16 @@ const ContestResultsCarousel = () => {
       description: "UniV4 limit & scale orders",
       tech: "Solidity",
       submissions: "100+",
-      url: "https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1"
+      url: "https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1",
+      logo: gammaStrategiesLogo
     },
     {
       name: "Kuru Exchange",
       description: "DEX on Monad (CLOB)",
       tech: "Solidity",
       submissions: "1100+",
-      url: "https://cantina.xyz/code/cdce21ba-b787-4df4-9c56-b31d085388e7/overview"
+      url: "https://cantina.xyz/code/cdce21ba-b787-4df4-9c56-b31d085388e7/overview",
+      logo: kuruExchangeLogo
     }
   ];
 
@@ -180,7 +216,7 @@ const ContestResultsCarousel = () => {
               <span className="text-muted-foreground">severity findings</span>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="default" className="text-base px-3 py-1">25 Medium</Badge>
+              <Badge variant="default" className="text-base px-3 py-1">30 Medium</Badge>
               <span className="text-muted-foreground">severity findings</span>
             </div>
           </div>
@@ -190,7 +226,7 @@ const ContestResultsCarousel = () => {
         <div className="relative overflow-hidden">
           <div 
             ref={scrollContainerRef}
-            className="flex gap-8 overflow-x-hidden"
+            className="flex gap-8 overflow-x-auto pb-4"
             style={{ scrollBehavior: 'auto' }}
           >
             {duplicatedContests.map((contest, index) => (
@@ -255,6 +291,11 @@ const ContestResultsCarousel = () => {
             >
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start mb-4">
+                  <img
+                    src={judging.logo}
+                    alt={`${judging.name} logo`}
+                    className="h-12 w-12 rounded-lg object-cover"
+                  />
                   <Badge variant="outline" className="cyber-border text-primary text-base px-4 py-1">
                     Cantina
                   </Badge>

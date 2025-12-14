@@ -19,7 +19,7 @@ const ContactCTA = () => {
             <CardContent>
               <div className="text-center">
                 <p className="text-muted-foreground text-lg">
-                  Available for private audits, PR reviews and mid-term collaborations
+                  Available for private audits, PR reviews and long-term collaborations
                 </p>
               </div>
               
@@ -37,8 +37,8 @@ const ContactCTA = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="text-center p-4">
-                  <div className="text-3xl font-bold text-primary mb-2">24-48h</div>
-                  <div className="text-sm text-muted-foreground">Response Time</div>
+                  <div className="text-3xl font-bold text-primary mb-2">Response within 24h</div>
+                  <div className="text-sm text-muted-foreground">365 days/year</div>
                 </div>
                 <div className="text-center p-4">
                   <div className="text-3xl font-bold text-primary mb-2">NDA</div>

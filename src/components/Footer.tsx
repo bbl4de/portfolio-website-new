@@ -1,4 +1,4 @@
-import { Github, Twitter, Linkedin } from "lucide-react";
+import { Github, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -26,14 +26,6 @@ const Footer = () => {
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               <Github className="h-5 w-5" />
-            </a>
-            <a 
-              href="https://cantina.xyz/u/bbl4de" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              <Linkedin className="h-5 w-5" />
             </a>
           </div>
           

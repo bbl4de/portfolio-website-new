@@ -37,7 +37,7 @@ const Hero = () => {
           Security. Mastery. Trust.
         </p>
         <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Quick 48-hour turnaround • Seamless process with no unnecessary overhead
+          Start an audit with no delays • Seamless process with no unnecessary overhead
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -68,7 +68,7 @@ const Hero = () => {
             <div className="text-muted-foreground">Contests & Audits</div>
           </div>
           <div className="p-6 rounded-lg bg-card/50 backdrop-blur cyber-border">
-            <div className="text-4xl font-bold text-secondary mb-2">6</div>
+            <div className="text-4xl font-bold text-secondary mb-2">7</div>
             <div className="text-muted-foreground">Top 10 Finishes</div>
           </div>
         </div>

@@ -80,10 +80,11 @@ const FloatingCTA = () => {
       <Button
         size="lg"
         onClick={handleClick}
-        className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box shadow-lg animate-pulse-glow"
+        className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box shadow-lg animate-pulse-glow text-[1.2rem]"
       >
+        <ArrowDown className="mr-2 h-5 w-5 animate-arrow-pulse" strokeWidth={3.5} />
         Get a Security Audit
-        <ArrowDown className="ml-2 h-5 w-5" />
+        <ArrowDown className="ml-2 h-5 w-5 animate-arrow-pulse" strokeWidth={3.5} />
       </Button>
     </div>
   );
