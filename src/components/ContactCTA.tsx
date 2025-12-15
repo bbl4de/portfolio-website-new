@@ -25,31 +25,23 @@ const ContactCTA = () => {
               
               <div className="flex justify-center items-center py-12">
                 <Button 
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box h-12 md:h-16 px-6 md:px-10 text-lg md:text-2xl font-bold rounded-xl w-3/4 md:w-auto"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box h-12 md:h-16 px-5 md:px-10 text-base md:text-2xl font-bold rounded-xl w-3/4 md:w-auto"
                   asChild
                 >
-                  <a href="https://t.me/bbl4de" target="_blank" rel="noopener noreferrer">
-                    <MessageSquare className="mr-3 h-8 w-8" />
-                    Book via Telegram
+                  <a href="https://t.me/bbl4de" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                    <MessageSquare className="h-5 w-5 md:h-8 md:w-8 flex-shrink-0" />
+                    <span className="leading-tight">Book via Telegram</span>
                   </a>
                 </Button>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 md:gap-6 items-center">
-                <div className="text-center space-y-1 md:space-y-2">
+              <div className="flex flex-col md:grid md:grid-cols-2 gap-3 md:gap-6 items-center">
+                <div className="text-center md:text-left space-y-1 md:space-y-2 md:col-span-2">
                   <div className="text-base md:text-2xl font-bold text-primary whitespace-nowrap">
                     Response within 24h
                   </div>
                   <div className="text-[11px] md:text-sm text-muted-foreground">
                     365 days/year
-                  </div>
-                </div>
-                <div className="text-center space-y-1 md:space-y-2">
-                  <div className="text-base md:text-2xl font-bold text-primary">
-                    NDA
-                  </div>
-                  <div className="text-[11px] md:text-sm text-muted-foreground">
-                    Confidentiality Assured
                   </div>
                 </div>
               </div>

@@ -139,8 +139,11 @@ const ContestResultsCarousel = () => {
 
     let scrollPosition = 0;
     const scrollSpeed = 0.55;
+    let userInteracting = false;
 
     const scroll = () => {
+      if (userInteracting) return;
+
       scrollPosition += scrollSpeed;
       
       if (scrollPosition >= scrollContainer.scrollWidth / 2) {
@@ -166,8 +169,32 @@ const ContestResultsCarousel = () => {
       }
     };
 
+    const handleTouchStart = () => {
+      userInteracting = true;
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      userInteracting = false;
+      scrollPosition = scrollContainer.scrollLeft;
+      if (!animationRef.current) {
+        animationRef.current = requestAnimationFrame(scroll);
+      }
+    };
+
+    const syncScrollPosition = () => {
+      scrollPosition = scrollContainer.scrollLeft;
+    };
+
     scrollContainer.addEventListener('mouseenter', handleMouseEnter);
     scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+    scrollContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+    scrollContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+    scrollContainer.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+    scrollContainer.addEventListener('scroll', syncScrollPosition, { passive: true });
     
     animationRef.current = requestAnimationFrame(scroll);
 
@@ -177,6 +204,10 @@ const ContestResultsCarousel = () => {
       }
       scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
       scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
+      scrollContainer.removeEventListener('touchstart', handleTouchStart);
+      scrollContainer.removeEventListener('touchend', handleTouchEnd);
+      scrollContainer.removeEventListener('touchcancel', handleTouchEnd);
+      scrollContainer.removeEventListener('scroll', syncScrollPosition);
     };
   }, []);
 
