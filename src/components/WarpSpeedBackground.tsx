@@ -122,7 +122,7 @@ const WarpSpeedBackground = ({ onReady }: WarpSpeedBackgroundProps) => {
   return (
     <div 
       className="absolute inset-0 w-full h-full"
-      style={{ backgroundColor: 'hsl(0, 0%, 6%)' }}
+      style={{ backgroundColor: 'transparent' }}
     >
       <Canvas
         camera={{ position: [0, 0, 30], fov: 60, near: 0.1, far: 500 }}

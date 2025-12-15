@@ -203,7 +203,7 @@ const ContestResultsCarousel = () => {
   ];
 
   return (
-    <section id="results" className="relative min-h-screen py-14 md:py-20 px-4 overflow-hidden bg-gradient-to-br from-background via-primary/5 to-background flex flex-col justify-center">
+    <section id="results" className="relative min-h-screen py-14 md:py-20 px-4 overflow-hidden bg-transparent flex flex-col justify-center">
       
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-10 md:mb-16">
@@ -212,12 +212,12 @@ const ContestResultsCarousel = () => {
           </h2>
           <div className="mt-6 flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-6 text-base">
             <div className="flex items-center gap-2 justify-center">
-              <Badge variant="destructive" className="text-sm sm:text-base px-3 py-1">17 High</Badge>
-              <span className="text-muted-foreground">severity findings</span>
+              <Badge variant="destructive" className="text-xs sm:text-base px-3 py-1">17 High</Badge>
+              <span className="text-muted-foreground text-sm sm:text-base">severity findings</span>
             </div>
             <div className="flex items-center gap-2 justify-center">
-              <Badge variant="default" className="text-sm sm:text-base px-3 py-1">30 Medium</Badge>
-              <span className="text-muted-foreground">severity findings</span>
+              <Badge variant="default" className="text-xs sm:text-base px-3 py-1">30 Medium</Badge>
+              <span className="text-muted-foreground text-sm sm:text-base">severity findings</span>
             </div>
           </div>
         </div>
@@ -226,13 +226,13 @@ const ContestResultsCarousel = () => {
         <div className="relative overflow-hidden">
           <div 
             ref={scrollContainerRef}
-            className="flex gap-4 sm:gap-8 overflow-x-auto pb-6 pr-4 md:pr-0 snap-x snap-mandatory"
+            className="flex gap-4 sm:gap-8 overflow-x-auto pb-6 pr-4 md:pr-0"
             style={{ scrollBehavior: 'auto' }}
           >
             {duplicatedContests.map((contest, index) => (
               <Card 
                 key={index} 
-                className="flex-shrink-0 w-[85vw] sm:w-[420px] md:w-[480px] bg-card/60 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group snap-center"
+                className="flex-shrink-0 w-[54vw] sm:w-[315px] md:w-[360px] bg-card/60 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group"
               >
                 <CardHeader className="pb-4">
                   <div className="flex justify-between items-start mb-4">
@@ -241,23 +241,23 @@ const ContestResultsCarousel = () => {
                       alt={`${contest.contest} logo`}
                       className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg object-cover"
                     />
-                    <Badge variant="outline" className="cyber-border text-primary text-sm sm:text-base px-3 sm:px-4 py-1">
+                    <Badge variant="outline" className="cyber-border text-primary text-xs sm:text-base px-3 sm:px-4 py-1">
                       {contest.platform}
                     </Badge>
                   </div>
-                  <CardTitle className="text-xl sm:text-2xl group-hover:text-primary transition-colors">
+                  <CardTitle className="text-base sm:text-2xl group-hover:text-primary transition-colors">
                     {contest.contest}
                   </CardTitle>
-                  <CardDescription className="text-muted-foreground font-semibold text-base sm:text-lg">
+                  <CardDescription className="text-muted-foreground font-semibold text-xs sm:text-lg">
                     {contest.rank}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="text-sm sm:text-base text-muted-foreground">
+                  <div className="text-xs sm:text-sm text-muted-foreground">
                     {contest.tech}
                   </div>
                   <div className="space-y-2">
-                    <div className="flex justify-between text-sm sm:text-base">
+                    <div className="flex justify-between text-xs sm:text-sm">
                       <span className="text-muted-foreground">Findings:</span>
                       <span className="font-semibold">{contest.findings}</span>
                     </div>
@@ -266,7 +266,7 @@ const ContestResultsCarousel = () => {
                     href={contest.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mt-4"
+                    className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors mt-4"
                   >
                     View Details <ExternalLink className="h-4 w-4" />
                   </a>
@@ -283,11 +283,11 @@ const ContestResultsCarousel = () => {
           </h2>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 justify-items-center">
           {judgingCards.map((judging, index) => (
             <Card 
               key={index} 
-              className="w-full sm:w-[480px] bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group"
+              className="w-full sm:w-[255px] md:w-[330px] bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group"
             >
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start mb-4">
@@ -296,23 +296,23 @@ const ContestResultsCarousel = () => {
                     alt={`${judging.name} logo`}
                     className="h-12 w-12 rounded-lg object-cover"
                   />
-                  <Badge variant="outline" className="cyber-border text-primary text-base px-4 py-1">
+                  <Badge variant="outline" className="cyber-border text-primary text-xs sm:text-sm px-3 sm:px-4 py-1">
                     Cantina
                   </Badge>
                 </div>
-                <CardTitle className="text-2xl group-hover:text-primary transition-colors">
+                <CardTitle className="text-lg sm:text-2xl group-hover:text-primary transition-colors">
                   {judging.name}
                 </CardTitle>
-                <CardDescription className="text-muted-foreground font-semibold text-lg">
+                <CardDescription className="text-muted-foreground font-semibold text-sm sm:text-lg">
                   {judging.description}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="text-sm text-muted-foreground">
+                <div className="text-xs sm:text-sm text-muted-foreground">
                   {judging.tech}
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-base">
+                  <div className="flex justify-between text-xs sm:text-base">
                     <span className="text-muted-foreground">Submissions:</span>
                     <span className="font-semibold">{judging.submissions}</span>
                   </div>
@@ -321,7 +321,7 @@ const ContestResultsCarousel = () => {
                   href={judging.url} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mt-4"
+                  className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground hover:text-primary transition-colors mt-4"
                 >
                   View Details <ExternalLink className="h-4 w-4" />
                 </a>

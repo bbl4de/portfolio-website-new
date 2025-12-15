@@ -58,14 +58,14 @@ const profiles: Profile[] = [
 
 const ProfileLinks = () => {
   return (
-    <section id="profiles" className="relative py-20 px-4 overflow-hidden bg-gradient-to-t from-background via-secondary/8 to-primary/5">
+    <section id="profiles" className="relative py-20 px-4 overflow-hidden bg-transparent">
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 cyber-glow">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 cyber-glow">
             Platform Profiles
           </h2>
-          <p className="text-muted-foreground text-lg">
-            Connect with me across various security platforms
+          <p className="text-muted-foreground text-base md:text-lg">
+            Learn more about bbl4de
           </p>
         </div>
 

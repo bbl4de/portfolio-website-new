@@ -60,6 +60,18 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  .page-vertical-gradient {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--background)) 0%,
+      hsl(var(--primary) / 0.12) 12%,
+      hsl(var(--background)) 32%,
+      hsl(var(--primary) / 0.16) 55%,
+      hsl(var(--background)) 82%,
+      hsl(var(--background)) 100%
+    );
+  }
+
   .cyber-glow {
     text-shadow: 0 0 10px hsl(var(--cyber-glow) / 0.5),
                  0 0 20px hsl(var(--cyber-glow) / 0.3);

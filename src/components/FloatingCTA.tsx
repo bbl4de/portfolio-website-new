@@ -73,14 +73,14 @@ const FloatingCTA = () => {
 
   return (
     <div
-      className={`hidden sm:block fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out ${
+      className={`fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out ${
         shouldShow ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-6 scale-95 pointer-events-none"
       }`}
     >
       <Button
         size="lg"
         onClick={handleClick}
-        className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box shadow-lg animate-pulse-glow text-[1.2rem]"
+        className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box shadow-lg animate-pulse-glow text-base sm:text-[1.2rem] px-4 sm:px-6"
       >
         <ArrowDown className="mr-2 h-5 w-5 animate-arrow-pulse" strokeWidth={3.5} />
         Get a Security Audit
