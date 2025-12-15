@@ -50,7 +50,7 @@ const AuditProcess = () => {
                 key={index}
                 className="relative bg-card/50 backdrop-blur cyber-border transition-all duration-300 group hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(234,88,12,0.4)] w-full max-w-xl"
               >
-                <CardContent className="py-4 px-6 flex items-center gap-4">
+                <CardContent className="py-4 px-4 sm:px-6 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                   {/* Step number circle */}
                   <div className="w-12 h-12 rounded-full bg-card border-2 border-primary flex items-center justify-center transition-all duration-300 group-hover:bg-primary group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(234,88,12,0.6)]">
                     <span className="text-xl font-bold text-primary transition-colors duration-300 group-hover:text-white">{index + 1}</span>
@@ -60,7 +60,7 @@ const AuditProcess = () => {
                   <IconComponent className="h-5 w-5 text-primary flex-shrink-0" />
                   
                   {/* Title */}
-                  <h3 className="text-lg font-bold group-hover:text-primary transition-colors whitespace-nowrap">
+                  <h3 className="text-base sm:text-lg font-bold group-hover:text-primary transition-colors leading-snug">
                     {step.title}
                   </h3>
                 </CardContent>
