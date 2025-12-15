@@ -83,20 +83,20 @@ const ProfileLinks = () => {
                 className="bg-card/50 backdrop-blur cyber-border hover:cyber-glow-box transition-all duration-300 group cursor-pointer h-full"
               >
                 <CardHeader className="space-y-4">
-                  <div className="w-16 h-16 rounded-lg bg-background/50 p-3 flex items-center justify-center border border-primary/20 mx-auto">
+                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-lg bg-background/50 p-2 md:p-3 flex items-center justify-center border border-primary/20 mx-auto">
                     <img src={profile.logo} alt={profile.name} className="w-full h-full object-contain" />
                   </div>
                   <div className="text-center">
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                    <CardTitle className="text-lg md:text-xl group-hover:text-primary transition-colors">
                       {profile.name}
                     </CardTitle>
                     {profile.stats && (
-                      <CardDescription className="text-sm mt-2 text-primary font-medium">
+                      <CardDescription className="text-xs md:text-sm mt-2 text-primary font-medium">
                         {profile.stats}
                       </CardDescription>
                     )}
                     {profile.platform && !profile.stats && (
-                      <CardDescription className="text-sm mt-2">
+                      <CardDescription className="text-xs md:text-sm mt-2">
                         {profile.platform}
                       </CardDescription>
                     )}
