@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquare, Mail, Twitter } from "lucide-react";
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -23,7 +23,7 @@ const ContactCTA = () => {
       normalized === "preseed" ||
       normalizedCampaign === "preseed";
 
-    return isPreseed ? "/book-telegram/preseed" : "/book-telegram";
+    return isPreseed ? "/book-telegram-preseed" : "/book-telegram";
   }, [searchParams]);
 
   return (
@@ -57,14 +57,6 @@ const ContactCTA = () => {
               </div>
 
               <div className="flex flex-col md:grid md:grid-cols-2 gap-3 md:gap-6 items-center">
-                <div className="text-center md:text-left space-y-1 md:space-y-2 md:col-span-2">
-                  <div className="text-base md:text-2xl font-bold text-primary whitespace-nowrap">
-                    Response within 24h
-                  </div>
-                  <div className="text-[11px] md:text-sm text-muted-foreground">
-                    365 days/year
-                  </div>
-                </div>
               </div>
             </CardContent>
           </Card>

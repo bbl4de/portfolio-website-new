@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/book-telegram",
+      "destination": "/"
+    },
+    {
+      "source": "/book-telegram/(.*)",
+      "destination": "/"
+    },
+    {
+      "source": "/book-telegram-preseed",
+      "destination": "/"
+    },
+    {
+      "source": "/book-telegram-preseed/(.*)",
+      "destination": "/"
+    }
+  ]
+}
