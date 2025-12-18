@@ -1,10 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquare, Mail, Twitter } from "lucide-react";
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import WarpSpeedBackground from "./WarpSpeedBackground";
 
 
 const ContactCTA = () => {
+  const [searchParams] = useSearchParams();
+
+  const bookingHref = useMemo(() => {
+    const preseed = searchParams.get("preseed");
+    const campaign = searchParams.get("utm_campaign");
+
+    const normalized = preseed?.toLowerCase();
+    const normalizedCampaign = campaign?.toLowerCase();
+
+    const isPreseed =
+      normalized === "1" ||
+      normalized === "true" ||
+      normalized === "yes" ||
+      normalized === "preseed" ||
+      normalizedCampaign === "preseed";
+
+    return isPreseed ? "/book-telegram/preseed" : "/book-telegram";
+  }, [searchParams]);
+
   return (
     <section id="contact" className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden bg-transparent">
       <WarpSpeedBackground />
@@ -28,7 +49,7 @@ const ContactCTA = () => {
                   className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box h-12 md:h-16 px-5 md:px-10 text-base md:text-2xl font-bold rounded-xl w-3/4 md:w-auto"
                   asChild
                 >
-                  <a href="https://t.me/bbl4de" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                  <a href={bookingHref} className="flex items-center justify-center gap-2">
                     <MessageSquare className="h-5 w-5 md:h-8 md:w-8 flex-shrink-0" />
                     <span className="leading-tight">Book via Telegram</span>
                   </a>
