@@ -49,8 +49,11 @@ const ContactCTA = () => {
                   className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box h-12 md:h-16 px-5 md:px-10 text-base md:text-2xl font-bold rounded-xl w-3/4 md:w-auto"
                   asChild
                 >
-                  <a href={bookingHref} className="flex items-center justify-center gap-2">
-                    <MessageSquare className="h-5 w-5 md:h-8 md:w-8 flex-shrink-0" />
+                  <a href={bookingHref} className="flex items-center justify-center gap-3">
+                    <MessageSquare
+                      className="!h-6 !w-6 md:!h-7 md:!w-7 flex-shrink-0"
+                      strokeWidth={2}
+                    />
                     <span className="leading-tight">Book via Telegram</span>
                   </a>
                 </Button>
