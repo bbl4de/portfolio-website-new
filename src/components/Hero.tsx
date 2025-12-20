@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -17,7 +18,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-background/50 to-background" />
       
       <div className="container mx-auto px-4 z-10 text-center">
-        <Badge variant="outline" className="mb-4 md:mb-6 cyber-border text-primary animate-pulse-glow text-sm md:text-base px-3 md:px-4 py-1">
+        <Badge variant="outline" className="mb-4 md:mb-6 cyber-border text-primary text-sm md:text-base px-3 md:px-4 py-1">
           Independent Security Researcher
         </Badge>
         
@@ -43,10 +44,13 @@ const Hero = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button 
             size="lg" 
-            className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box transition-all duration-300"
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box transition-all duration-300 animate-pulse-glow"
+            style={{ animationDuration: "2s" }}
+            asChild
           >
-            Get a Quote
+            <Link to="/book-an-audit">
+              Book an Audit
+            </Link>
           </Button>
           <Button 
             size="lg" 

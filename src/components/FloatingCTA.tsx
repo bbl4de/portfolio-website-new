@@ -3,10 +3,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 
 const FloatingCTA = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [isScrolling, setIsScrolling] = useState(false);
   const [isAtContact, setIsAtContact] = useState(false);
-  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [pastHero, setPastHero] = useState(false);
 
   useEffect(() => {
     // Observer for contact section
@@ -35,41 +33,28 @@ const FloatingCTA = () => {
   }, []);
 
   useEffect(() => {
+    const pastInitialView = () => window.scrollY > window.innerHeight * 0.25;
+
     const handleScroll = () => {
-      // Hide when scrolling
-      setIsScrolling(true);
-      setIsVisible(false);
-
-      // Clear existing timeout
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-
-      // Show again after scrolling stops
-      const timeout = setTimeout(() => {
-        setIsScrolling(false);
-        setIsVisible(true);
-      }, 150);
-
-      setScrollTimeout(timeout);
+      setPastHero(pastInitialView());
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // Set initial visibility based on initial scroll position
+    setPastHero(pastInitialView());
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
     };
-  }, [scrollTimeout]);
+  }, []);
 
   const handleClick = () => {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Hide button if at contact section
-  const shouldShow = isVisible && !isAtContact;
+  // Hide button if at contact section or before scrolling past hero
+  const shouldShow = pastHero && !isAtContact;
 
   return (
     <div
@@ -81,6 +66,7 @@ const FloatingCTA = () => {
         size="lg"
         onClick={handleClick}
         className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box shadow-lg animate-pulse-glow text-base sm:text-[1.2rem] px-4 sm:px-6"
+        style={{ animationDuration: "2s" }}
       >
         <ArrowDown className="mr-2 h-5 w-5 animate-arrow-pulse" strokeWidth={3.5} />
         Get a Security Audit

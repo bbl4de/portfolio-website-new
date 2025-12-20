@@ -1,30 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageSquare, Mail, Twitter } from "lucide-react";
-import { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { MessageSquare } from "lucide-react";
+import { Link } from "react-router-dom";
 import WarpSpeedBackground from "./WarpSpeedBackground";
 
-
 const ContactCTA = () => {
-  const [searchParams] = useSearchParams();
-
-  const bookingHref = useMemo(() => {
-    const preseed = searchParams.get("preseed");
-    const campaign = searchParams.get("utm_campaign");
-
-    const normalized = preseed?.toLowerCase();
-    const normalizedCampaign = campaign?.toLowerCase();
-
-    const isPreseed =
-      normalized === "1" ||
-      normalized === "true" ||
-      normalized === "yes" ||
-      normalized === "preseed" ||
-      normalizedCampaign === "preseed";
-
-    return isPreseed ? "/book-telegram-preseed" : "/book-telegram";
-  }, [searchParams]);
+  const bookingHref = "/book-an-audit";
 
   return (
     <section id="contact" className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden bg-transparent">
@@ -45,17 +26,17 @@ const ContactCTA = () => {
               </div>
               
               <div className="flex justify-center items-center py-12">
-                <Button 
+                <Button
                   className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box h-12 md:h-16 px-5 md:px-10 text-base md:text-2xl font-bold rounded-xl w-3/4 md:w-auto"
                   asChild
                 >
-                  <a href={bookingHref} className="flex items-center justify-center gap-3">
+                  <Link to={bookingHref} className="flex items-center justify-center gap-3">
                     <MessageSquare
                       className="!h-6 !w-6 md:!h-7 md:!w-7 flex-shrink-0"
                       strokeWidth={2}
                     />
-                    <span className="leading-tight">Book via Telegram</span>
-                  </a>
+                    <span className="leading-tight">Book an Audit</span>
+                  </Link>
                 </Button>
               </div>
 

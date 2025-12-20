@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import AuditRequest from "./pages/AuditRequest";
 import TelegramRedirect from "./pages/TelegramRedirect";
 import LoadingScreen from "./components/LoadingScreen";
 
@@ -30,6 +31,7 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/book-an-audit" element={<AuditRequest />} />
               <Route path="/book-telegram" element={<TelegramRedirect />} />
               <Route path="/book-telegram-preseed" element={<TelegramRedirect />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

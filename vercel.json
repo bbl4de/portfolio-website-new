@@ -15,6 +15,14 @@
     {
       "source": "/book-telegram-preseed/(.*)",
       "destination": "/"
+    },
+    {
+      "source": "/book-an-audit",
+      "destination": "/"
+    },
+    {
+      "source": "/book-an-audit/(.*)",
+      "destination": "/"
     }
   ]
 }
