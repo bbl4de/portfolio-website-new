@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowDown } from "lucide-react";
 
 const FloatingCTA = () => {
   const [isAtContact, setIsAtContact] = useState(false);
@@ -50,7 +49,7 @@ const FloatingCTA = () => {
   }, []);
 
   const handleClick = () => {
-    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    window.location.href = "/book-an-audit";
   };
 
   // Hide button if at contact section or before scrolling past hero
@@ -68,9 +67,7 @@ const FloatingCTA = () => {
         className="bg-primary text-primary-foreground hover:bg-primary/90 cyber-glow-box shadow-lg animate-pulse-glow text-base sm:text-[1.2rem] px-4 sm:px-6"
         style={{ animationDuration: "2s" }}
       >
-        <ArrowDown className="mr-2 h-5 w-5 animate-arrow-pulse" strokeWidth={3.5} />
-        Get a Security Audit
-        <ArrowDown className="ml-2 h-5 w-5 animate-arrow-pulse" strokeWidth={3.5} />
+        Book an audit
       </Button>
     </div>
   );

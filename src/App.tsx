@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,37 +8,26 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AuditRequest from "./pages/AuditRequest";
 import TelegramRedirect from "./pages/TelegramRedirect";
-import LoadingScreen from "./components/LoadingScreen";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        {isLoading && <LoadingScreen />}
-        <div className={isLoading ? "opacity-0" : "opacity-100 transition-opacity duration-500"}>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/book-an-audit" element={<AuditRequest />} />
-              <Route path="/book-telegram" element={<TelegramRedirect />} />
-              <Route path="/book-telegram-preseed" element={<TelegramRedirect />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-          <Analytics />
-        </div>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/book-an-audit" element={<AuditRequest />} />
+            <Route path="/book-telegram" element={<TelegramRedirect />} />
+            <Route path="/book-telegram-preseed" element={<TelegramRedirect />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+        <Analytics />
       </TooltipProvider>
     </QueryClientProvider>
   );

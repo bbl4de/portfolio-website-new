@@ -12,9 +12,9 @@ const Index = () => {
       <Hero />
       <div className="page-vertical-gradient">
         <ContestResultsCarousel />
-        <ProfileLinks />
         <AuditProcess />
         <ContactCTA />
+        <ProfileLinks />
       </div>
       <Footer />
       <FloatingCTA />
