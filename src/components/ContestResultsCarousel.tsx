@@ -137,19 +137,31 @@ const ContestResultsCarousel = () => {
     const scrollContainer = scrollContainerRef.current;
     if (!scrollContainer) return;
 
-    let scrollPosition = 0;
+    let scrollPosition = scrollContainer.scrollLeft;
     const scrollSpeed = 0.55;
     let userInteracting = false;
+    const getLoopWidth = () => scrollContainer.scrollWidth / 2 || 1;
+
+    const normalizeScroll = () => {
+      const loopWidth = getLoopWidth();
+      if (scrollContainer.scrollLeft >= loopWidth) {
+        scrollContainer.scrollLeft = scrollContainer.scrollLeft - loopWidth;
+      } else if (scrollContainer.scrollLeft < 0) {
+        scrollContainer.scrollLeft = scrollContainer.scrollLeft + loopWidth;
+      }
+      scrollPosition = scrollContainer.scrollLeft;
+    };
 
     const scroll = () => {
       if (userInteracting) return;
 
-      scrollPosition += scrollSpeed;
-      
-      if (scrollPosition >= scrollContainer.scrollWidth / 2) {
-        scrollPosition = 0;
+      const loopWidth = getLoopWidth();
+      scrollPosition = scrollContainer.scrollLeft + scrollSpeed;
+
+      if (scrollPosition >= loopWidth) {
+        scrollPosition = scrollPosition - loopWidth;
       }
-      
+
       scrollContainer.scrollLeft = scrollPosition;
       animationRef.current = requestAnimationFrame(scroll);
     };
@@ -163,7 +175,7 @@ const ContestResultsCarousel = () => {
 
     const handleMouseLeave = () => {
       // Resume from the user's current scroll position to avoid jumps
-      scrollPosition = scrollContainer.scrollLeft;
+      normalizeScroll();
       if (!animationRef.current) {
         animationRef.current = requestAnimationFrame(scroll);
       }
@@ -179,14 +191,18 @@ const ContestResultsCarousel = () => {
 
     const handleTouchEnd = () => {
       userInteracting = false;
-      scrollPosition = scrollContainer.scrollLeft;
+      normalizeScroll();
       if (!animationRef.current) {
         animationRef.current = requestAnimationFrame(scroll);
       }
     };
 
     const syncScrollPosition = () => {
-      scrollPosition = scrollContainer.scrollLeft;
+      normalizeScroll();
+    };
+
+    const handleResize = () => {
+      normalizeScroll();
     };
 
     scrollContainer.addEventListener('mouseenter', handleMouseEnter);
@@ -195,7 +211,10 @@ const ContestResultsCarousel = () => {
     scrollContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
     scrollContainer.addEventListener('touchcancel', handleTouchEnd, { passive: true });
     scrollContainer.addEventListener('scroll', syncScrollPosition, { passive: true });
+    window.addEventListener('resize', handleResize);
     
+    // Start normalized to avoid visible jumps on first loop
+    normalizeScroll();
     animationRef.current = requestAnimationFrame(scroll);
 
     return () => {
@@ -208,6 +227,7 @@ const ContestResultsCarousel = () => {
       scrollContainer.removeEventListener('touchend', handleTouchEnd);
       scrollContainer.removeEventListener('touchcancel', handleTouchEnd);
       scrollContainer.removeEventListener('scroll', syncScrollPosition);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -257,7 +277,7 @@ const ContestResultsCarousel = () => {
         <div className="relative overflow-hidden">
           <div 
             ref={scrollContainerRef}
-            className="flex gap-4 sm:gap-8 overflow-x-auto pb-6 pr-4 md:pr-0"
+            className="flex gap-4 sm:gap-8 overflow-x-auto pb-6 pr-4 md:pr-0 cyber-scrollbar carousel-fade"
             style={{ scrollBehavior: 'auto' }}
           >
             {duplicatedContests.map((contest, index) => (
