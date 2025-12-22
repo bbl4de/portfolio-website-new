@@ -105,7 +105,7 @@ const contests: Contest[] = [
     contest: "Space and Time",
     rank: "4th Place",
     findings: "5 Medium, 4 Low",
-    url: "https://cantina.xyz/code/3cc30b66-1cba-4044-968f-a0817cd7bf83/findings?s=created_by%253Abbl4de%2520order_by%253Aseverity_asc",
+    url: "https://cantina.xyz/code/3cc30b66-1cba-4044-968f-a0817cd7bf83/overview/leaderboard",
     tech: "Rust + Solidity • reth-based L1 - ZK proofs for SQL data",
     logo: spaceAndTimeLogo
   },
