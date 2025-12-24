@@ -72,7 +72,7 @@ const Hero = () => {
             <div className="text-muted-foreground text-sm md:text-base">Contests & Audits</div>
           </div>
           <div className="p-5 md:p-6 rounded-lg bg-card/50 backdrop-blur cyber-border">
-            <div className="text-3xl md:text-4xl font-bold text-secondary mb-1 md:mb-2">7</div>
+            <div className="text-3xl md:text-4xl font-bold text-secondary mb-1 md:mb-2">8</div>
             <div className="text-muted-foreground text-sm md:text-base">Top 10 Finishes</div>
           </div>
         </div>
